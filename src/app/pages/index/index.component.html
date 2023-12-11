@@ -1,0 +1,500 @@
+<nav
+  class="navbar navbar-expand-lg fixed-top navbar-transparent"
+  color-on-scroll="100"
+  id="navbar-top"
+>
+  <div class="container">
+    <div class="navbar-translate">
+      <a
+        class="navbar-brand"
+        placement="bottom"
+        [routerLink]="['/home']"
+        target="_blank"
+      >
+        <span> BLK• </span> Rifas v0.1.0
+      </a>
+      <button
+        aria-controls="navigation-index"
+        aria-label="Toggle navigation"
+        class="navbar-toggler navbar-toggler"
+        [attr.aria-expanded]="!isCollapsed"
+        (click)="isCollapsed = !isCollapsed"
+        id="navigation"
+        type="button"
+      >
+        <span class="navbar-toggler-bar bar1"> </span>
+        <span class="navbar-toggler-bar bar2"> </span>
+        <span class="navbar-toggler-bar bar3"> </span>
+      </button>
+    </div>
+    <div
+      class="navbar-collapse justify-content-end"
+      [collapse]="isCollapsed"
+      id="navigation"
+    >
+      <div class="navbar-collapse-header">
+        <div class="row">
+          <div class="col-6 collapse-brand"><a> BLK• </a></div>
+          <div class="col-6 collapse-close text-right">
+            <button
+              aria-controls="navigation-index"
+              aria-label="Toggle navigation"
+              class="navbar-toggler"
+              [attr.aria-expanded]="!isCollapsed"
+              (click)="isCollapsed = !isCollapsed"
+              id="navigation"
+              type="button"
+            >
+              <i class="tim-icons icon-simple-remove"> </i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="javascript:void(0)">
+            <i class="tim-icons icon-world"> </i> Inicio
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0)">
+            <i class="tim-icons icon-zoom-split"> </i> Verificador
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0)">
+            <i class="tim-icons icon-chat-33"> </i> Preguntas
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="javascript:void(0)">
+            <i class="tim-icons icon-send"> </i> Contacto
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="javascript:void(0)">
+            <i class="tim-icons icon-bag-16"> </i> Boletos
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="wrapper">
+  <div class="page-header header-filter">
+    <div class="squares square1"></div>
+    <div class="squares square2"></div>
+    <div class="squares square3"></div>
+    <div class="squares square4"></div>
+    <div class="squares square5"></div>
+    <div class="squares square6"></div>
+    <div class="squares square7"></div>
+    <div class="container">
+      <div class="content-center brand">
+        <div
+          class="row row-grid justify-content-between align-items-center text-left"
+        >
+          <div class="col-lg-8 col-md-6">
+            <h1 class="h1-seo">BLK•</h1>
+
+            <h4 class="text-white mb-3">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Unde
+              accusantium deserunt tempore, fugit, soluta ad, repudiandae
+              nostrum commodi quidem ipsa nam quos? Quos, qui quae sed sapiente
+              neque veniam assumenda!
+            </h4>
+            <h3 class="text-white mb-3">
+              <i class="tim-icons icon-calendar-60"></i> DD MMMM YYYY
+            </h3>
+            <h3>
+              <i class="tim-icons icon-time-alarm"></i>
+              HH:MM:SS
+            </h3>
+            <h4>Lorem ipsum dolor sit amet consectetur, adipisicing elit</h4>
+          </div>
+          <div class="col-lg-4 col-md-5">
+            <img
+              alt="Circle image"
+              class="img-fluid"
+              src="assets/img/bike.png"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main">
+    <div class="wrapper" id="asd">
+      <section class="section">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card card-plain">
+                <div class="card-header">
+                  <h1 class="profile-title text-left">Elige tus boletos</h1>
+                  <h5 class="text-on-back">01</h5>
+                </div>
+                <div class="card-body">
+                  <p class="profile-description">
+                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                    Quis pariatur magni tempora provident itaque quibusdam nam
+                    iusto similique esse maxime accusamus reiciendis ea,
+                    explicabo dolorem, rerum accusantium vero iste possimus!.
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 ml-auto mr-auto">
+              <div class="card card-coin card-plain">
+                <div class="card-header">
+                  <h4 class="title">Tu selección</h4>
+                </div>
+                <div class="card-body">
+                  <div class="row justify-content-center">
+                    <h1 class="text-white">Boletos a elegir</h1>
+                  </div>
+                  <div class="row justify-content-around">
+                    <button
+                      class="btn btn-simple btn-danger btn-icon btn-round"
+                      type="submit"
+                      (click)="sub_ticket(1)"
+                    >
+                      <i class="tim-icons icon-simple-delete"> </i>
+                    </button>
+                    <h1>{{ ticket_counter }}</h1>
+                    <button
+                      class="btn btn-simple btn-danger btn-icon btn-round"
+                      type="submit"
+                      (click)="add_ticket(1)"
+                    >
+                      <i class="tim-icons icon-simple-add"> </i>
+                    </button>
+                  </div>
+                  <div class="row justify-content-around">
+                    <h2>Total: ${{ ticket_counter * ticket_price }}</h2>
+                  </div>
+                  <div class="row justify-content-around">
+                    <button
+                      class="btn btn-primary btn-neutral"
+                      (click)="add_ticket(10)"
+                      type="submit"
+                    >
+                      +10
+                    </button>
+                    <button
+                      class="btn btn-primary btn-neutral"
+                      (click)="add_ticket(100)"
+                      type="submit"
+                    >
+                      +100
+                    </button>
+                    <button
+                      class="btn btn-primary btn-neutral"
+                      (click)="add_ticket(1000)"
+                      type="submit"
+                    >
+                      +1000
+                    </button>
+                  </div>
+                  <div class="row justify-content-around">
+                    <button
+                      class="btn btn-primary btn-neutral"
+                      (click)="sub_ticket(10)"
+                      type="submit"
+                    >
+                      -10
+                    </button>
+                    <button
+                      class="btn btn-primary btn-neutral"
+                      (click)="sub_ticket(100)"
+                      type="submit"
+                    >
+                      -100
+                    </button>
+                    <button
+                      class="btn btn-primary btn-neutral"
+                      (click)="sub_ticket(1000)"
+                      type="submit"
+                    >
+                      -1000
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <h1>Aqui va la lista de tickets</h1>
+        </div>
+      </section>
+      <div class="section">
+        <div class="container">
+          <div class="row justify-content-between">
+            <div class="col-md-6">
+              <div class="row justify-content-between align-items-center pt-5">
+                <form>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label> Nombre(s) </label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          value=""
+                          placeholder="Miguel Angel"
+                          [(ngModel)]="final_data.name"
+                          name="name"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label> Apellido(s) </label>
+                        <input
+                          class="form-control"
+                          type="text"
+                          value=""
+                          placeholder="Herrera Cairo"
+                          name="lastname"
+                          [(ngModel)]="final_data.last_name"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label> Correo Electronico </label>
+                        <input
+                          name="email"
+                          class="form-control"
+                          placeholder="mike@email.com"
+                          type="email"
+                          [(ngModel)]="final_data.mail"
+                        />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label> Teléfono </label>
+                        <input
+                          name="phone"
+                          class="form-control"
+                          type="text"
+                          placeholder="0011223344"
+                          [(ngModel)]="final_data.name"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <h1 class="profile-title text-left">Datos de contacto</h1>
+              <h5 class="text-on-back">02</h5>
+              <p class="profile-description text-left">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Tenetur explicabo culpa et adipisci pariatur. Quia id nesciunt
+                pariatur voluptatibus fuga fugiat, molestias dicta at esse
+                temporibus sit qui. Nisi, eveniet.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="container">
+          <div class="row justify-content-between">
+            <div class="col-md-5">
+              <h1 class="profile-title text-left">Pago</h1>
+              <h5 class="text-on-back">03</h5>
+              <p class="profile-description text-left">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Tenetur explicabo culpa et adipisci pariatur. Quia id nesciunt
+                pariatur voluptatibus fuga fugiat, molestias dicta at esse
+                temporibus sit qui. Nisi, eveniet.
+              </p>
+              <h2>Total: ${{ ticket_counter * ticket_price }}</h2>
+            </div>
+            <div class="col-md-6">
+              <div class="row justify-content-around align-items-center pt-5">
+                <img
+                  alt="Circle image"
+                  class="img-fluid rounded shadow-lg"
+                  src="assets/img/santander.png"
+                  [style.opacity]="selectedImage === 1 ? '1' : '0.25'"
+                  (click)="selectImage(1)"
+                  style="cursor: pointer"
+                />
+                <img
+                  alt="Circle image"
+                  class="img-fluid rounded shadow-lg"
+                  src="assets/img/bbva.png"
+                  [style.opacity]="selectedImage === 2 ? '1' : '0.25'"
+                  (click)="selectImage(2)"
+                  style="cursor: pointer"
+                />
+                <img
+                  alt="Circle image"
+                  class="img-fluid rounded shadow-lg"
+                  src="assets/img/banorte.png"
+                  [style.opacity]="selectedImage === 3 ? '1' : '0.25'"
+                  (click)="selectImage(3)"
+                  style="cursor: pointer"
+                />
+              </div>
+
+              <div [ngSwitch]="selectedImage">
+                <div *ngSwitchCase="1">
+                  <div
+                    class="row justify-content-around align-items-center pt-5"
+                  >
+                    <h1>{{ bank_data.santander.name }}</h1>
+                  </div>
+                </div>
+                <div *ngSwitchCase="2">
+                  <div
+                    class="row justify-content-around align-items-center pt-5"
+                  >
+                    <h1>{{ bank_data.bancomer.name }}</h1>
+                  </div>
+                </div>
+                <div *ngSwitchCase="3">
+                  <div
+                    class="row justify-content-around align-items-center pt-5"
+                  >
+                    <h1>{{ bank_data.banorte.name }}</h1>
+                  </div>
+                  <div *ngSwitchDefault>ERROR</div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <div class="form-check form-check-radio">
+                  <label class="form-check-label">
+                    <input
+                      class="form-check-input"
+                      id="exampleRadios1"
+                      name="exampleRadios"
+                      type="radio"
+                      value="transferencia"
+                      [(ngModel)]="option"
+                      (change)="log()"
+                    />
+
+                    <span class="form-check-sign"> </span> Transferencia
+                  </label>
+                </div>
+                <div class="form-check form-check-radio">
+                  <label class="form-check-label">
+                    <input
+                      checked="checked"
+                      class="form-check-input"
+                      id="exampleRadios1"
+                      name="exampleRadios"
+                      type="radio"
+                      value="deposito"
+                      [(ngModel)]="option"
+                      (change)="log()"
+                    />
+
+                    <span class="form-check-sign"> </span> Depósito
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="container">
+          <div class="row justify-content-between">
+            <div class="col-md-6">
+              <div class="row justify-content-between align-items-center pt-5">
+                <h1>Aqui va el resumen de todo lo que se seleccionó</h1>
+                <h5>
+                  Tambien decir que se enviará la info de las cuentas por Whats
+                  y/o correo para el deposito
+                </h5>
+                <p>
+                  Se quedarán apartados los numeros por 24 horas hasta que se
+                  envíe el comprobante y nosotros los bloquearemos despues
+                </p>
+              </div>
+            </div>
+            <div class="col-md-5">
+              <h1 class="profile-title text-left">Resumen del pedido</h1>
+              <h5 class="text-on-back">04</h5>
+              <p class="profile-description text-left">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Tenetur explicabo culpa et adipisci pariatur. Quia id nesciunt
+                pariatur voluptatibus fuga fugiat, molestias dicta at esse
+                temporibus sit qui. Nisi, eveniet.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="container">
+          <div class="row justify-content-between">
+            <div class="col-md-5">
+              <h1 class="profile-title text-left">Preguntas Frecuentes</h1>
+              <h5 class="text-on-back">05</h5>
+              <p class="profile-description text-left">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                Tenetur explicabo culpa et adipisci pariatur. Quia id nesciunt
+                pariatur voluptatibus fuga fugiat, molestias dicta at esse
+                temporibus sit qui. Nisi, eveniet.
+              </p>
+            </div>
+            <div class="col-md-6">
+              <div class="row justify-content-between align-items-center pt-5">
+                <h1>Aqui pues preguntas</h1>
+                <h5>la página del veridicador es aparte</h5>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-3"><h1 class="title">BLK•</h1></div>
+            <div class="col-md-3">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" [routerLink]="['/home']">
+                    Footer PAGE 1
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" [routerLink]="['/home']">
+                    Footer PAGE 2
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" [routerLink]="['/home']">
+                    Footer PAGE 3
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" [routerLink]="['/home']">
+                    Footer PAGE 4
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-md-3">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href=""> Footer ITEM 1 </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href=""> Footer ITEM 2 </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </div>
+</div>
