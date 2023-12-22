@@ -22,6 +22,7 @@ import { Index2Component } from "./index2/index2.component";
 import { ProfilepageComponent } from "./examples/profilepage/profilepage.component";
 import { RegisterpageComponent } from "./examples/registerpage/registerpage.component";
 import { LandingpageComponent } from "./examples/landingpage/landingpage.component";
+import { Index4Component } from "./index3/index4.component";
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { LandingpageComponent } from "./examples/landingpage/landingpage.compone
   declarations: [
     IndexComponent,
     Index2Component,
+    Index4Component,
     ProfilepageComponent,
     RegisterpageComponent,
     LandingpageComponent,
@@ -52,6 +54,7 @@ import { LandingpageComponent } from "./examples/landingpage/landingpage.compone
   exports: [
     IndexComponent,
     Index2Component,
+    Index4Component,
     ProfilepageComponent,
     RegisterpageComponent,
     LandingpageComponent,

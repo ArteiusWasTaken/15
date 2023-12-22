@@ -1,6 +1,9 @@
 .index-page .squares {
   @include linear-gradient($danger-states, $danger);
 }
+.index4-page .squares {
+  @include linear-gradient($danger-states, $danger);
+}
 .index2-page .squares {
   @include linear-gradient($danger-states, $danger);
 }
