@@ -5,12 +5,7 @@
 >
   <div class="container">
     <div class="navbar-translate">
-      <a
-        class="navbar-brand"
-        placement="bottom"
-        [routerLink]="['/home']"
-        target="_blank"
-      >
+      <a class="navbar-brand" placement="bottom" [routerLink]="['/home']">
         <span> Sorteos • Lobo </span>
       </a>
       <button
@@ -92,11 +87,11 @@
           <h1 class="profile-title text-left">Elige tus boletos</h1>
           <h5 class="text-on-back">01</h5>
           <p class="profile-description">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quis
-            pariatur magni tempora provident itaque quibusdam nam iusto
-            similique esse maxime accusamus reiciendis ea, explicabo dolorem,
-            rerum accusantium vero iste possimus!.
+            En la tabla de la derecha seleciona cuántos boletos comprarás.<br />
+            ¡Entre más boletos, más oportunidades tienes de ganar!
           </p>
+
+          <h2>Precio del boleto: ${{ ticket_price }} MXN</h2>
         </div>
         <div class="col-lg-4 col-md-6 ml-auto mr-auto">
           <div class="card card-coin card-plain">
@@ -125,13 +120,14 @@
                 </button>
               </div>
               <div class="row justify-content-around">
-                <h2>Total: ${{ ticket_counter * ticket_price }}</h2>
+                <h2>Total: ${{ ticket_counter * ticket_price }} MXN</h2>
               </div>
               <div class="row justify-content-around">
                 <button
                   class="btn btn-primary btn-danger"
                   (click)="add_ticket(10)"
                   type="submit"
+                  style="color: #000"
                 >
                   +10
                 </button>
@@ -139,6 +135,7 @@
                   class="btn btn-primary btn-danger"
                   (click)="add_ticket(100)"
                   type="submit"
+                  style="color: #000"
                 >
                   +100
                 </button>
@@ -146,6 +143,7 @@
                   class="btn btn-primary btn-danger"
                   (click)="add_ticket(1000)"
                   type="submit"
+                  style="color: #000"
                 >
                   +1000
                 </button>
@@ -155,6 +153,7 @@
                   class="btn btn-primary btn-danger"
                   (click)="sub_ticket(10)"
                   type="submit"
+                  style="color: #000"
                 >
                   -10
                 </button>
@@ -162,6 +161,7 @@
                   class="btn btn-primary btn-danger"
                   (click)="sub_ticket(100)"
                   type="submit"
+                  style="color: #000"
                 >
                   -100
                 </button>
@@ -169,6 +169,7 @@
                   class="btn btn-primary btn-danger"
                   (click)="sub_ticket(1000)"
                   type="submit"
+                  style="color: #000"
                 >
                   -1000
                 </button>
@@ -183,6 +184,14 @@
   <div class="section">
     <div class="container">
       <div class="row justify-content-between">
+        <div class="col-md-5">
+          <h1 class="profile-title text-left">Datos de contacto</h1>
+          <h5 class="text-on-back">02</h5>
+          <p class="profile-description text-left">
+            Registra tus datos personales <br />¡Estos son importantes para
+            contactarnos contigo en caso de ser el Ganador!
+          </p>
+        </div>
         <div class="col-md-6">
           <div class="row justify-content-between align-items-center pt-5">
             <form>
@@ -233,23 +242,13 @@
                       class="form-control"
                       type="text"
                       placeholder="0011223344"
-                      [(ngModel)]="final_data.name"
+                      [(ngModel)]="final_data.phone"
                     />
                   </div>
                 </div>
               </div>
             </form>
           </div>
-        </div>
-        <div class="col-md-5">
-          <h1 class="profile-title text-left">Datos de contacto</h1>
-          <h5 class="text-on-back">02</h5>
-          <p class="profile-description text-left">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur
-            explicabo culpa et adipisci pariatur. Quia id nesciunt pariatur
-            voluptatibus fuga fugiat, molestias dicta at esse temporibus sit
-            qui. Nisi, eveniet.
-          </p>
         </div>
       </div>
     </div>
@@ -264,10 +263,9 @@
               <h1 class="profile-title text-left">Pago</h1>
               <h5 class="text-on-back">03</h5>
               <p class="profile-description text-left">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Tenetur explicabo culpa et adipisci pariatur. Quia id nesciunt
-                pariatur voluptatibus fuga fugiat, molestias dicta at esse
-                temporibus sit qui. Nisi, eveniet.
+                Tenemos la(las) siguientes cuenta(s) para procesar tu pedido.
+                <br />Te haremos llegar las instrucciones vía correo electronico
+                y/o WhatsApp
               </p>
               <h2>Total: ${{ ticket_counter * ticket_price }}</h2>
             </div>
@@ -360,28 +358,24 @@
   <div class="section">
     <div class="container">
       <div class="row justify-content-between">
-        <div class="col-md-6">
-          <div class="row justify-content-between align-items-center pt-5">
-            <h1>Aqui va el resumen de todo lo que se seleccionó</h1>
-            <h5>
-              Tambien decir que se enviará la info de las cuentas por Whats y/o
-              correo para el deposito
-            </h5>
-            <p>
-              Se quedarán apartados los numeros por 24 horas hasta que se envíe
-              el comprobante y nosotros los bloquearemos despues
-            </p>
-          </div>
-        </div>
         <div class="col-md-5">
           <h1 class="profile-title text-left">Resumen del pedido</h1>
           <h5 class="text-on-back">04</h5>
-          <p class="profile-description text-left">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur
-            explicabo culpa et adipisci pariatur. Quia id nesciunt pariatur
-            voluptatibus fuga fugiat, molestias dicta at esse temporibus sit
-            qui. Nisi, eveniet.
-          </p>
+        </div>
+        <div class="col-md-6">
+          <div class="row justify-content-between align-items-center pt-5">
+            <h1>Revise los datos para continuar</h1>
+            <h2>Boletos Seleccionados: x/x</h2>
+            <h3>lista de boletos desplegable</h3>
+            <h5>
+              Tus números se quedarán apartados por 12 horas. En cuanto
+              confirmemos el pago procederemos a bloquearlos definitivamente
+            </h5>
+            <h2>Participante:</h2>
+            <h3>nombre</h3>
+            <h2>Pago:</h2>
+            <h3>pago</h3>
+          </div>
         </div>
       </div>
     </div>
@@ -390,96 +384,22 @@
   <div class="section">
     <div class="container">
       <div class="row justify-content-between">
-        <div class="col-md-5">
-          <h1 class="profile-title text-left">Preguntas Frecuentes</h1>
-          <h5 class="text-on-back">05</h5>
-          <p class="profile-description text-left">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Tenetur
-            explicabo culpa et adipisci pariatur. Quia id nesciunt pariatur
-            voluptatibus fuga fugiat, molestias dicta at esse temporibus sit
-            qui. Nisi, eveniet.
-          </p>
-        </div>
-        <div class="col-md-6">
-          <div class="row justify-content-between align-items-center pt-5">
-            <h1>Aqui pues preguntas</h1>
-            <h5>la página del veridicador es aparte</h5>
+        <div class="col-md-12">
+          <div class="text-center col-md-12 col-lg-12">
+            <a
+              class="btn btn-danger btn-round btn-block"
+              role="button"
+              style="color: #000"
+            >
+              ¡Enviar!
+            </a>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <footer class="footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3"><h1 class="title">BLK•</h1></div>
-        <div class="col-md-3">
-          <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/home']"> Home </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/landing']"> Landing </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/register']"> Register </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" [routerLink]="['/profile']"> Profile </a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <ul class="nav">
-            <li class="nav-item">
-              <a class="nav-link" href="https://creative-tim.com/contact-us">
-                Contact Us
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://creative-tim.com/about-us">
-                About Us
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://creative-tim.com/blog">
-                Blog
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="https://opensource.org/licenses/MIT">
-                License
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div class="col-md-3">
-          <h3 class="title">Follow us:</h3>
-          <div class="btn-wrapper profile">
-            <a
-              class="btn btn-icon btn-neutral btn-round btn-simple mr-1"
-              href="https://twitter.com/creativetim"
-              target="_blank"
-            >
-              <i class="fab fa-twitter"> </i>
-            </a>
-            <a
-              class="btn btn-icon btn-neutral btn-round btn-simple mr-1"
-              href="https://www.facebook.com/creativetim"
-              target="_blank"
-            >
-              <i class="fab fa-facebook-square"> </i>
-            </a>
-            <a
-              class="btn btn-icon btn-neutral btn-round btn-simple"
-              href="https://dribbble.com/creativetim"
-              target="_blank"
-            >
-              <i class="fab fa-dribbble"> </i>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="container"></div>
   </footer>
 </div>

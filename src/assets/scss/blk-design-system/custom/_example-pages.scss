@@ -504,6 +504,7 @@
 
 // style for the profile page
 .profile-page {
+  /* Add this SCSS to your styles.scss file */
   overflow-x: hidden;
 
   .page-header {
@@ -538,7 +539,7 @@
   .profile-description {
     margin-top: -30px;
     max-width: 450px;
-    font-size: $font-size-base;
+    font-size: 18px;
     line-height: 26px;
   }
 
