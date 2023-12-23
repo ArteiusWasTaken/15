@@ -6,16 +6,11 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 })
 export class ProfilepageComponent implements OnInit, OnDestroy {
   isCollapsed = true;
+
   ticket_counter: number = 0;
   ticket_price: number = 7; //pesos
 
   option: "";
-  focus;
-  focus1;
-  focus2;
-  date = new Date();
-  pagination = 3;
-  pagination1 = 1;
 
   final_data = {
     name: "",
@@ -43,7 +38,67 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
     },
   };
   selectedImage: number = 1;
-  constructor() {}
+
+  lotteryTickets: any[] = [];
+  selectedTickets: any[] = [];
+  itemsPerPage = 1000;
+  currentPage = 1;
+  searchTerm: string = "";
+  filteredTickets: any[] = [];
+  showSearchField = false;
+
+  constructor() {
+    for (let i = 1; i <= 10000; i++) {
+      const ticketNumber = i.toString().padStart(5, "0");
+      this.lotteryTickets.push({ number: ticketNumber, selected: false });
+    }
+
+    this.filteredTickets = [...this.lotteryTickets];
+  }
+  toggleSearchField() {
+    this.showSearchField = !this.showSearchField;
+    if (!this.showSearchField) {
+      this.searchTerm = "";
+      this.onSearchChange();
+    }
+  }
+
+  clearSearch() {
+    this.searchTerm = "";
+    this.onSearchChange();
+    this.showSearchField = false;
+  }
+
+  toggleSelection(ticket: any) {
+    ticket.selected = !ticket.selected;
+
+    if (ticket.selected) {
+      this.selectedTickets.push(ticket);
+    } else {
+      this.selectedTickets = this.selectedTickets.filter(
+        (selectedTicket) => selectedTicket.number !== ticket.number
+      );
+    }
+    console.log(this.selectedTickets);
+  }
+
+  getCurrentPageTickets() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredTickets.slice(startIndex, endIndex);
+  }
+
+  onPageChange(newPage: number) {
+    this.currentPage = newPage;
+  }
+
+  onSearchChange() {
+    this.filteredTickets = this.lotteryTickets.filter((ticket) =>
+      ticket.number.includes(this.searchTerm)
+    );
+
+    this.currentPage = 1;
+  }
 
   ngOnInit() {
     this.selectImage(1);
@@ -51,16 +106,16 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("profile-page");
   }
+
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("profile-page");
   }
-  log() {
-    console.log(this.option);
-  }
+
   selectImage(imageNumber: number) {
     this.selectedImage = imageNumber;
   }
+
   add_ticket(n: number) {
     this.ticket_counter = this.ticket_counter + n;
   }
@@ -70,5 +125,30 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
       return;
     }
     this.ticket_counter = this.ticket_counter - n;
+  }
+  selectRandomNumbers() {
+    const numberOfRandomNumbers = 20;
+    const availableTickets = this.lotteryTickets.filter(
+      (ticket) => !ticket.selected
+    );
+
+    if (availableTickets.length >= numberOfRandomNumbers) {
+      this.selectedTickets.forEach((ticket) => (ticket.selected = false));
+      this.selectedTickets = [];
+
+      // Select random numbers
+      for (let i = 0; i < numberOfRandomNumbers; i++) {
+        const randomIndex = Math.floor(Math.random() * availableTickets.length);
+        const randomTicket = availableTickets[randomIndex];
+        randomTicket.selected = true;
+        this.selectedTickets.push(randomTicket);
+        const selectedNumbers = this.selectedTickets.map(
+          (ticket) => ticket.number
+        );
+        console.log("Randomly Selected Numbers:", selectedNumbers);
+      }
+    } else {
+      console.log("Not enough available tickets to select random numbers.");
+    }
   }
 }

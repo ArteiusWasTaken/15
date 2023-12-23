@@ -99,6 +99,8 @@
       &:hover {
         @include diagonal-gradient($danger, $danger-states);
       }
+      color: black;
+      font-weight: bolder;
     }
   }
 

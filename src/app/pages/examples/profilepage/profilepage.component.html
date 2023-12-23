@@ -181,6 +181,89 @@
     </div>
   </div>
 
+  <div class="container">
+    <div class="row justify-content-center">
+      <button
+        class="btn btn-danger"
+        style="color: #000"
+        (click)="selectRandomNumbers()"
+      >
+        Seleccion al azar
+      </button>
+    </div>
+    <div class="row justify-content-center mb-4">
+      <!-- Search icon button -->
+      <div class="search-icon-container text-center">
+        <button
+          class="btn btn-danger search-icon-btn"
+          style="margin: 0"
+          type="button"
+          style="color: #000"
+          (click)="toggleSearchField()"
+        >
+          <i
+            class="{{ showSearchField ? 'fas fa-times' : 'fas fa-search' }}"
+          ></i>
+        </button>
+      </div>
+
+      <!-- Search field -->
+      <div class="search-container text-center" *ngIf="showSearchField">
+        <input
+          type="text"
+          style="margin-top: 3px"
+          class="form-control text-center"
+          placeholder="Search by ticket number"
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+        />
+      </div>
+    </div>
+
+    <div class="scrollable-container">
+      <div class="container">
+        <div class="lottery-grid">
+          <ng-container *ngFor="let ticket of getCurrentPageTickets()">
+            <div
+              class="lottery-ticket"
+              (click)="toggleSelection(ticket)"
+              [attr.id]="'ticket-' + ticket.number"
+              [ngClass]="{ selected: ticket.selected }"
+            >
+              <span class="ticket-number">{{ ticket.number }}</span>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <pagination
+        [boundaryLinks]="true"
+        [totalItems]="filteredTickets.length"
+        [(ngModel)]="currentPage"
+        [maxSize]="10"
+        [itemsPerPage]="itemsPerPage"
+        (pageChanged)="onPageChange($event.page)"
+        class="pagination-danger"
+        previousText="&lsaquo;"
+        nextText="&rsaquo;"
+        firstText="&laquo;"
+        lastText="&raquo;"
+      ></pagination>
+    </div>
+    <div class="row justify-content-center">
+      <button
+        class="btn btn-danger"
+        data-target="#myModal1"
+        (click)="myModal.show()"
+        style="color: #000"
+      >
+        Ver Seleccionados ({{ selectedTickets.length }})
+      </button>
+    </div>
+  </div>
+
   <div class="section">
     <div class="container">
       <div class="row justify-content-between">
@@ -343,7 +426,6 @@
                   type="radio"
                   value="deposito"
                   [(ngModel)]="option"
-                  (change)="log()"
                 />
 
                 <span class="form-check-sign"> </span> Depósito
@@ -402,4 +484,49 @@
   <footer class="footer">
     <div class="container"></div>
   </footer>
+</div>
+
+<div
+  aria-hidden="true"
+  aria-labelledby="myModalLabel"
+  bsModal
+  class="modal fade"
+  #myModal="bs-modal"
+  id="myModal"
+  role="dialog"
+  tabindex4="-1"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button
+          aria-hidden="true"
+          class="close"
+          data-dismiss="modal"
+          type="button"
+          (click)="myModal.hide()"
+        >
+          <i class="tim-icons icon-simple-remove" style="color: red"></i>
+        </button>
+        <h4 class="title title-up">Boletos Seleccionados</h4>
+      </div>
+      <div class="modal-body lottery-grid">
+        <ng-container *ngFor="let ticket of selectedTickets">
+          <div class="lottery-ticket" [ngClass]="{ selected: ticket.selected }">
+            <span class="ticket-number">{{ ticket.number }}</span>
+          </div>
+        </ng-container>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button
+          class="btn btn-danger"
+          data-dismiss="modal"
+          type="button"
+          (click)="myModal.hide()"
+        >
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
