@@ -511,7 +511,7 @@
     max-height: 400px;
     max-width: 760px;
     overflow: auto;
-    margin: 0 auto; /* Center the container horizontally */
+    margin: auto; /* Center the container horizontally */
   }
 
   .lottery-grid {
@@ -524,7 +524,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid #ddd;
+    border: 1px solid $danger;
     padding: 10px;
     cursor: pointer;
     border-radius: 8px; /* Add this property for rounded corners */
@@ -537,11 +537,40 @@
     }
 
     &.selected {
-      background-color: #87ceeb;
-      color: #fff;
+      background-color: $danger;
+      color: #000;
+    }
+    &.blocked {
+      background-color: #ffcccc; // Adjust the color as per your design
     }
   }
+  .delete-indicator {
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(50%, -50%);
+    width: 20px;
+    height: 20px;
+    background-color: red;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 12px;
+  }
 
+  .input-group-focus {
+    border: 1px solid rgb(199, 171, 12);
+    box-shadow: 0 0 5px rgba(199, 171, 12, 0.5);
+  }
+
+  .form-control[disabled] {
+    color: #a0a0a0;
+    background-color: #f8f9fa;
+  }
   overflow-x: hidden;
 
   .page-header {

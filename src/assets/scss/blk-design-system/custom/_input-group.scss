@@ -116,9 +116,9 @@
   .input-group-prepend .input-group-text,
   .input-group-append .input-group-text {
     background-color: $white;
-    border-color: $primary;
+    border-color: transparent;
     background-color: $transparent-bg;
-    border-color: $primary;
+    border-color: transparent;
   }
 
   &.no-border {
