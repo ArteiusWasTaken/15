@@ -175,6 +175,7 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    window.scrollTo(0, 0);
     this.selectImage(1);
 
     var body = document.getElementsByTagName("body")[0];
