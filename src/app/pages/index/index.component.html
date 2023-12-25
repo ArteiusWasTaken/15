@@ -130,7 +130,7 @@
           <div class="row justify-content-between align-items-center">
             <a
               class="btn btn-danger btn-block mt-4"
-              [routerLink]="['/profile']"
+              [routerLink]="['/rifa']"
               style="color: #000"
             >
               Ir a la rifa!
@@ -159,51 +159,6 @@
         </div>
       </div>
     </div>
-    <div class="section section-examples" data-background-color="black">
-      <img class="path" src="assets/img/path1.png" />
-
-      <div class="space-50"></div>
-      <div class="container">
-        <div class="title">
-          <h3>Rifas Activas <i class="tim-icons icon-minimal-right"> </i></h3>
-        </div>
-        <div class="row">
-          <div class="col-sm-6">
-            <a [routerLink]="['/landing']">
-              <img
-                alt="Image"
-                class="img-raised"
-                src="assets/img/bike2.jpg"
-                style="height: 200px"
-              />
-            </a>
-            <div class="progress-container progress-danger">
-              <span class="progress-badge" style="font-size: 15px">
-                Boletos vendidos:
-              </span>
-              <progressbar class="progress-bar-danger" [value]="60">
-                <span class="progress-value" style="font-size: 15px">
-                  60%
-                </span>
-              </progressbar>
-            </div>
-            <a
-              class="btn btn-simple btn-danger btn-round"
-              [routerLink]="['/landing']"
-            >
-              Honda CB650R
-            </a>
-          </div>
-          <div class="col-sm-6">
-            <img
-              alt="Image"
-              class="img-raised"
-              src="assets/img/proximamente.jpg"
-              style="height: 200px"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
+  <div class="space-50"></div>
 </div>

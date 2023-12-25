@@ -503,7 +503,7 @@
 }
 
 // style for the profile page
-.profile-page {
+.rifa-page {
   .search-icon-btn {
     height: 38px; // Set the height to match the search field
   }
@@ -838,7 +838,7 @@
 .index2-page,
 .index4-page,
 .landing-page,
-.profile-page,
+.rifa-page,
 .register-page {
   background-image: url("/assets/img/dots.png");
   background-size: contain;
@@ -883,7 +883,7 @@
     }
   }
 
-  .profile-page .page-header {
+  .rifa-page .page-header {
     max-height: unset;
   }
 

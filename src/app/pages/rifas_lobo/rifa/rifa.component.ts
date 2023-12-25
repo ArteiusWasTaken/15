@@ -10,8 +10,8 @@ import {
 } from "@angular/animations";
 
 @Component({
-  selector: "app-profilepage",
-  templateUrl: "profilepage.component.html",
+  selector: "app-rifa",
+  templateUrl: "rifa.component.html",
   animations: [
     trigger("buttonState", [
       state(
@@ -35,12 +35,7 @@ import {
     ]),
   ],
 })
-export class ProfilepageComponent implements OnInit, OnDestroy {
-  isCollapsed = true;
-  ticket_counter: number = 0;
-  ticket_price: number = 7; //pesos
-  isCheckboxSelected: boolean = false;
-
+export class RifapageComponent implements OnInit, OnDestroy {
   option: "";
 
   final_data = {
@@ -68,9 +63,13 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
       name: "BANORTE",
     },
   };
+
   selectedImage: number = 1;
   blockedNumbers: string[] = ["00001", "00005", "00010"];
-
+  isCollapsed = true;
+  ticket_counter: number = 0;
+  ticket_price: number = 7; //pesos
+  isCheckboxSelected: boolean = false;
   lotteryTickets: any[] = [];
   selectedTickets: any[] = [];
   itemsPerPage = 1000;
@@ -97,94 +96,17 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
     this.filteredTickets = [...this.lotteryTickets];
   }
 
-  deleteSelectedTicket(index: number) {
-    const ticketElement = document.getElementById(
-      `ticket-${this.selectedTickets[index].number}`
-    );
-    if (ticketElement) {
-      ticketElement.classList.remove("selected");
-    }
-
-    this.selectedTickets.splice(index, 1);
-    this.selectedTicketsModalData = [...this.selectedTickets];
-  }
-
-  openSelectedTicketsModal(template: any) {
-    this.selectedTicketsModalData = [...this.selectedTickets].sort((a, b) =>
-      a.number.localeCompare(b.number)
-    );
-
-    this.modalRef = this.modalService.show(template, { class: "modal-lg" });
-  }
-
-  toggleSearchField() {
-    this.showSearchField = !this.showSearchField;
-    if (!this.showSearchField) {
-      this.searchTerm = "";
-      this.onSearchChange();
-    }
-  }
-
-  clearSearch() {
-    this.searchTerm = "";
-    this.onSearchChange();
-    this.showSearchField = false;
-  }
-
-  toggleSelection(ticket: any) {
-    if (this.ticket_counter > 0) {
-      const isAlreadySelected = this.selectedTickets.some(
-        (selectedTicket) => selectedTicket.number === ticket.number
-      );
-
-      const isBlocked = this.blockedNumbers.includes(ticket.number);
-      ticket.blocked = isBlocked;
-      if (!isBlocked) {
-        if (
-          !isAlreadySelected &&
-          this.selectedTickets.length < this.ticket_counter
-        ) {
-          ticket.selected = true;
-          this.selectedTickets.push(ticket);
-        } else if (isAlreadySelected) {
-          ticket.selected = false;
-          this.selectedTickets = this.selectedTickets.filter(
-            (selectedTicket) => selectedTicket.number !== ticket.number
-          );
-        }
-      }
-    }
-  }
-
-  getCurrentPageTickets() {
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    return this.filteredTickets.slice(startIndex, endIndex);
-  }
-
-  onPageChange(newPage: number) {
-    this.currentPage = newPage;
-  }
-
-  onSearchChange() {
-    this.filteredTickets = this.lotteryTickets.filter((ticket) =>
-      ticket.number.includes(this.searchTerm)
-    );
-
-    this.currentPage = 1;
-  }
-
   ngOnInit() {
     window.scrollTo(0, 0);
     this.selectImage(1);
 
     var body = document.getElementsByTagName("body")[0];
-    body.classList.add("profile-page");
+    body.classList.add("rifa-page");
   }
 
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
-    body.classList.remove("profile-page");
+    body.classList.remove("rifa-page");
   }
 
   selectImage(imageNumber: number) {
@@ -298,5 +220,82 @@ export class ProfilepageComponent implements OnInit, OnDestroy {
         Swal.fire("Eliminadas todas las selecciones", "", "success");
       }
     });
+  }
+
+  deleteSelectedTicket(index: number) {
+    const ticketElement = document.getElementById(
+      `ticket-${this.selectedTickets[index].number}`
+    );
+    if (ticketElement) {
+      ticketElement.classList.remove("selected");
+    }
+
+    this.selectedTickets.splice(index, 1);
+    this.selectedTicketsModalData = [...this.selectedTickets];
+  }
+
+  openSelectedTicketsModal(template: any) {
+    this.selectedTicketsModalData = [...this.selectedTickets].sort((a, b) =>
+      a.number.localeCompare(b.number)
+    );
+
+    this.modalRef = this.modalService.show(template, { class: "modal-lg" });
+  }
+
+  toggleSearchField() {
+    this.showSearchField = !this.showSearchField;
+    if (!this.showSearchField) {
+      this.searchTerm = "";
+      this.onSearchChange();
+    }
+  }
+
+  clearSearch() {
+    this.searchTerm = "";
+    this.onSearchChange();
+    this.showSearchField = false;
+  }
+
+  toggleSelection(ticket: any) {
+    if (this.ticket_counter > 0) {
+      const isAlreadySelected = this.selectedTickets.some(
+        (selectedTicket) => selectedTicket.number === ticket.number
+      );
+
+      const isBlocked = this.blockedNumbers.includes(ticket.number);
+      ticket.blocked = isBlocked;
+      if (!isBlocked) {
+        if (
+          !isAlreadySelected &&
+          this.selectedTickets.length < this.ticket_counter
+        ) {
+          ticket.selected = true;
+          this.selectedTickets.push(ticket);
+        } else if (isAlreadySelected) {
+          ticket.selected = false;
+          this.selectedTickets = this.selectedTickets.filter(
+            (selectedTicket) => selectedTicket.number !== ticket.number
+          );
+        }
+      }
+    }
+  }
+
+  getCurrentPageTickets() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return this.filteredTickets.slice(startIndex, endIndex);
+  }
+
+  onPageChange(newPage: number) {
+    this.currentPage = newPage;
+  }
+
+  onSearchChange() {
+    this.filteredTickets = this.lotteryTickets.filter((ticket) =>
+      ticket.number.includes(this.searchTerm)
+    );
+
+    this.currentPage = 1;
   }
 }

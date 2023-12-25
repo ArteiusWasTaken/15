@@ -18,11 +18,7 @@ import { JwBootstrapSwitchNg2Module } from "jw-bootstrap-switch-ng2";
 import { PopoverModule } from "ngx-bootstrap/popover";
 
 import { IndexComponent } from "./index/index.component";
-import { Index2Component } from "./index2/index2.component";
-import { ProfilepageComponent } from "./examples/profilepage/profilepage.component";
-import { RegisterpageComponent } from "./examples/registerpage/registerpage.component";
-import { LandingpageComponent } from "./examples/landingpage/landingpage.component";
-import { Index4Component } from "./index3/index4.component";
+import { RifapageComponent } from "./rifas_lobo/rifa/rifa.component";
 
 @NgModule({
   imports: [
@@ -43,22 +39,8 @@ import { Index4Component } from "./index3/index4.component";
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
   ],
-  declarations: [
-    IndexComponent,
-    Index2Component,
-    Index4Component,
-    ProfilepageComponent,
-    RegisterpageComponent,
-    LandingpageComponent,
-  ],
-  exports: [
-    IndexComponent,
-    Index2Component,
-    Index4Component,
-    ProfilepageComponent,
-    RegisterpageComponent,
-    LandingpageComponent,
-  ],
+  declarations: [IndexComponent, RifapageComponent],
+  exports: [IndexComponent, RifapageComponent],
   providers: [],
 })
 export class PagesModule {}
