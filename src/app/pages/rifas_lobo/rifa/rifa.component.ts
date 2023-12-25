@@ -19,7 +19,7 @@ import {
         style({
           transform: "scale(1)",
           backgroundColor: "#f8f9fa",
-          color: "#000",
+          color: "#fff",
         })
       ),
       state(
@@ -27,7 +27,7 @@ import {
         style({
           transform: "scale(1.05)",
           backgroundColor: "#dc3545",
-          color: "#fff",
+          color: "#000",
         })
       ),
       transition("inactive => active", animate("100ms ease-in")),

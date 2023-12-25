@@ -47,28 +47,23 @@
       </div>
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="javascript:void(0)">
+          <a class="nav-link" [routerLink]="['/home']">
             <i class="tim-icons icon-world"> </i> Inicio
           </a>
         </li>
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/rifa']">
+            <i class="tim-icons icon-bag-16"> </i> Boletos
+          </a>
+        </li>
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">
+          <a class="nav-link" [routerLink]="['/verificador']">
             <i class="tim-icons icon-zoom-split"> </i> Verificador
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="javascript:void(0)">
+          <a class="nav-link" [routerLink]="['/preguntas']">
             <i class="tim-icons icon-chat-33"> </i> Preguntas
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="javascript:void(0)">
-            <i class="tim-icons icon-send"> </i> Contacto
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="javascript:void(0)">
-            <i class="tim-icons icon-bag-16"> </i> Boletos
           </a>
         </li>
       </ul>
@@ -291,62 +286,64 @@
             contactarnos contigo en caso de ser el Ganador!
           </p>
         </div>
-        <div class="col-md-6">
-          <div class="row justify-content-between align-items-center pt-5">
-            <form>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label> Nombre(s) </label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      value=""
-                      placeholder="Miguel Angel"
-                      [(ngModel)]="final_data.name"
-                      name="name"
-                    />
+        <div class="container">
+          <div class="col-md-6">
+            <div class="row justify-content-between align-items-center pt-5">
+              <form>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label> Nombre(s) </label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        value=""
+                        placeholder="Miguel Angel"
+                        [(ngModel)]="final_data.name"
+                        name="name"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label> Apellido(s) </label>
+                      <input
+                        class="form-control"
+                        type="text"
+                        value=""
+                        placeholder="Herrera Cairo"
+                        name="lastname"
+                        [(ngModel)]="final_data.last_name"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label> Correo Electronico </label>
+                      <input
+                        name="email"
+                        class="form-control"
+                        placeholder="mike@email.com"
+                        type="email"
+                        [(ngModel)]="final_data.mail"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label> Teléfono </label>
+                      <input
+                        name="phone"
+                        class="form-control"
+                        type="text"
+                        placeholder="0011223344"
+                        [(ngModel)]="final_data.phone"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label> Apellido(s) </label>
-                    <input
-                      class="form-control"
-                      type="text"
-                      value=""
-                      placeholder="Herrera Cairo"
-                      name="lastname"
-                      [(ngModel)]="final_data.last_name"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label> Correo Electronico </label>
-                    <input
-                      name="email"
-                      class="form-control"
-                      placeholder="mike@email.com"
-                      type="email"
-                      [(ngModel)]="final_data.mail"
-                    />
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label> Teléfono </label>
-                    <input
-                      name="phone"
-                      class="form-control"
-                      type="text"
-                      placeholder="0011223344"
-                      [(ngModel)]="final_data.phone"
-                    />
-                  </div>
-                </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
