@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
+import { HttpClient } from "@angular/common/http";
+
 import Swal from "sweetalert2";
 import {
   trigger,
@@ -8,6 +10,17 @@ import {
   animate,
   transition,
 } from "@angular/animations";
+import {
+  backend_url,
+  swalErrorHttpResponse,
+} from "src/environments/environment";
+import {
+  FinalData,
+  LoterryTicket,
+  Ticket,
+  BankDataCollection,
+  Participante,
+} from "src/app/interfaces";
 
 @Component({
   selector: "app-rifa",
@@ -36,16 +49,16 @@ import {
   ],
 })
 export class RifapageComponent implements OnInit, OnDestroy {
-  option: "";
-
-  final_data = {
+  final_data: FinalData = {
     name: "",
     last_name: "",
     mail: "",
     phone: "",
+    direccion: "",
+    pago: "",
   };
 
-  bank_data = {
+  bank_data: BankDataCollection = {
     bancomer: {
       account: "22222222222222",
       spei: "3333333333333333333",
@@ -63,38 +76,28 @@ export class RifapageComponent implements OnInit, OnDestroy {
       name: "BANORTE",
     },
   };
-
-  selectedImage: number = 1;
-  blockedNumbers: string[] = ["00001", "00005", "00010"];
-  isCollapsed = true;
-  ticket_counter: number = 0;
-  ticket_price: number = 7; //pesos
-  isCheckboxSelected: boolean = false;
-  lotteryTickets: any[] = [];
-  selectedTickets: any[] = [];
-  itemsPerPage = 1000;
-  currentPage = 1;
   searchTerm: string = "";
-  filteredTickets: any[] = [];
-  showSearchField = false;
+  itemsPerPage: number = 5000;
+  currentPage: number = 1;
+  isCollapsed: boolean = true;
+  isCheckboxSelected: boolean = false;
+  showSearchField: boolean = false;
+
   modalRef: BsModalRef;
   selectedTicketsModalData: any[] = [];
+
+  tickets: Ticket[] = [];
+  lotteryTickets: LoterryTicket[] = [];
+  selectedTickets: LoterryTicket[] = [];
+  blockedTickets: string[] = [];
+  filteredTickets: LoterryTicket[] = [];
+
+  ticket_price: number = 7; // pesos
+  ticket_counter: number = 0;
   selected: number = 0;
+  selectedImage: number = 1;
 
-  constructor(private modalService: BsModalService) {
-    for (let i = 1; i <= 10000; i++) {
-      const ticketNumber = i.toString().padStart(5, "0");
-      const isBlocked = this.blockedNumbers.includes(ticketNumber);
-
-      this.lotteryTickets.push({
-        number: ticketNumber,
-        selected: false,
-        blocked: isBlocked,
-      });
-    }
-
-    this.filteredTickets = [...this.lotteryTickets];
-  }
+  constructor(private modalService: BsModalService, private http: HttpClient) {}
 
   ngOnInit() {
     window.scrollTo(0, 0);
@@ -102,6 +105,32 @@ export class RifapageComponent implements OnInit, OnDestroy {
 
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("rifa-page");
+
+    this.http.get<any>(`${backend_url}getBlockedTickets`).subscribe(
+      (response) => {
+        this.tickets.push(...response["tickets"]);
+
+        this.tickets.forEach((ticket) => {
+          this.blockedTickets.push(ticket.number);
+        });
+
+        for (let i = 1; i < 100000; i++) {
+          const ticketNumber = i.toString().padStart(5, "0");
+          const isBlocked = this.blockedTickets.includes(ticketNumber);
+
+          this.lotteryTickets.push({
+            number: ticketNumber,
+            selected: false,
+            blocked: isBlocked,
+          });
+        }
+
+        this.filteredTickets = [...this.lotteryTickets];
+      },
+      (error) => {
+        swalErrorHttpResponse(error);
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -262,7 +291,7 @@ export class RifapageComponent implements OnInit, OnDestroy {
         (selectedTicket) => selectedTicket.number === ticket.number
       );
 
-      const isBlocked = this.blockedNumbers.includes(ticket.number);
+      const isBlocked = this.blockedTickets.includes(ticket.number);
       ticket.blocked = isBlocked;
       if (!isBlocked) {
         if (
@@ -297,5 +326,78 @@ export class RifapageComponent implements OnInit, OnDestroy {
     );
 
     this.currentPage = 1;
+  }
+
+  async addParticipante() {
+    let data = { email: this.final_data.mail };
+    const form_data_check = new FormData();
+    form_data_check.append("data", JSON.stringify(data));
+
+    let participante: Participante = {
+      name: this.final_data.name + " " + this.final_data.last_name,
+      email: this.final_data.mail,
+      phone: this.final_data.phone,
+      address: this.final_data.direccion,
+      crear: 0,
+    };
+
+    let final_tickets = [];
+
+    this.selectedTickets.forEach((ticket) => {
+      final_tickets.push(ticket.number);
+    });
+    console.log(final_tickets);
+
+    const form_data_add = new FormData();
+
+    this.http
+      .post(`${backend_url}checkParticipante`, form_data_check)
+      .subscribe(
+        (response) => {
+          if (response["code"] == 200) {
+            form_data_add.append("data", JSON.stringify(participante));
+            form_data_add.append("tickets", JSON.stringify(final_tickets));
+            this.http
+              .post(`${backend_url}addParticipante`, form_data_add)
+              .subscribe(
+                (response) => {
+                  console.log(response);
+                },
+                (error) => {
+                  swalErrorHttpResponse(error);
+                }
+              );
+          } else {
+            Swal.fire({
+              title: "",
+              html: `Ya existe un registro con el correo ${this.final_data.mail}<br/> Selecciona continuar para seguir, cancelar para usar otro`,
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonText: "Continuar",
+              cancelButtonText: "Cancelar",
+            }).then((result) => {
+              if (!result.isConfirmed) {
+                return;
+              }
+              participante.crear = 1;
+              form_data_add.append("data", JSON.stringify(participante));
+              form_data_add.append("tickets", JSON.stringify(final_tickets));
+              this.http
+                .post(`${backend_url}addParticipante`, form_data_add)
+                .subscribe(
+                  (response) => {
+                    console.log(response);
+                  },
+                  (error) => {
+                    swalErrorHttpResponse(error);
+                  }
+                );
+            });
+          }
+        },
+        (error) => {
+          swalErrorHttpResponse(error);
+        }
+      );
   }
 }

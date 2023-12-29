@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
+import { HttpClientModule } from "@angular/common/http";
 
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { ProgressbarModule } from "ngx-bootstrap/progressbar";
@@ -19,9 +20,12 @@ import { PopoverModule } from "ngx-bootstrap/popover";
 
 import { IndexComponent } from "./index/index.component";
 import { RifapageComponent } from "./rifas_lobo/rifa/rifa.component";
+import { VerificadorComponent } from "./rifas_lobo/verificador/verificador.component";
+import { MisticketsComponent } from "./rifas_lobo/mistickets/mistickets.component";
 
 @NgModule({
   imports: [
+    HttpClientModule,
     CommonModule,
     BrowserModule,
     FormsModule,
@@ -39,7 +43,12 @@ import { RifapageComponent } from "./rifas_lobo/rifa/rifa.component";
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
   ],
-  declarations: [IndexComponent, RifapageComponent],
+  declarations: [
+    IndexComponent,
+    RifapageComponent,
+    VerificadorComponent,
+    MisticketsComponent,
+  ],
   exports: [IndexComponent, RifapageComponent],
   providers: [],
 })

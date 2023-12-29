@@ -46,24 +46,9 @@
         </div>
       </div>
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/home']">
-            <i class="tim-icons icon-world"> </i> Inicio
-          </a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" [routerLink]="['/rifa']">
-            <i class="tim-icons icon-bag-16"> </i> Boletos
-          </a>
-        </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/verificador']">
-            <i class="tim-icons icon-zoom-split"> </i> Verificador
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLink]="['/preguntas']">
-            <i class="tim-icons icon-chat-33"> </i> Preguntas
+          <a class="nav-link" [routerLink]="['/mis-tickets']">
+            <i class="tim-icons icon-zoom-split"> </i> Mis Boletos
           </a>
         </li>
       </ul>
@@ -236,6 +221,7 @@
         nextText="&rsaquo;"
         firstText="&laquo;"
         lastText="&raquo;"
+        [boundaryLinks]="true"
       ></pagination>
     </div>
     <div class="row justify-content-center">
@@ -286,8 +272,9 @@
             contactarnos contigo en caso de ser el Ganador!
           </p>
         </div>
-        <div class="container">
-          <div class="col-md-6">
+
+        <div class="col-md-6">
+          <div class="container">
             <div class="row justify-content-between align-items-center pt-5">
               <form>
                 <div class="row">
@@ -341,6 +328,18 @@
                       />
                     </div>
                   </div>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label> Dirección </label>
+                      <input
+                        name="dirección"
+                        class="form-control"
+                        type="text"
+                        placeholder="Av. Siempre viva #742"
+                        [(ngModel)]="final_data.direccion"
+                      />
+                    </div>
+                  </div>
                 </div>
               </form>
             </div>
@@ -363,7 +362,6 @@
                 <br />Te haremos llegar las instrucciones vía correo electronico
                 y/o WhatsApp
               </p>
-              <h2>Total: ${{ ticket_counter * ticket_price }} MXN</h2>
             </div>
           </div>
         </div>
@@ -375,22 +373,6 @@
               src="assets/img/santander.png"
               [style.opacity]="selectedImage === 1 ? '1' : '0.25'"
               (click)="selectImage(1)"
-              style="cursor: pointer"
-            />
-            <img
-              alt="Circle image"
-              class="img-fluid rounded shadow-lg"
-              src="assets/img/bbva.png"
-              [style.opacity]="selectedImage === 2 ? '1' : '0.25'"
-              (click)="selectImage(2)"
-              style="cursor: pointer"
-            />
-            <img
-              alt="Circle image"
-              class="img-fluid rounded shadow-lg"
-              src="assets/img/banorte.png"
-              [style.opacity]="selectedImage === 3 ? '1' : '0.25'"
-              (click)="selectImage(3)"
               style="cursor: pointer"
             />
           </div>
@@ -412,38 +394,7 @@
               </div>
               <div *ngSwitchDefault>ERROR</div>
             </div>
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <div class="form-check form-check-radio">
-              <label class="form-check-label">
-                <input
-                  class="form-check-input"
-                  id="exampleRadios1"
-                  name="exampleRadios"
-                  type="radio"
-                  value="Transferencia"
-                  [(ngModel)]="option"
-                  (change)="log()"
-                />
-
-                <span class="form-check-sign"> </span> Transferencia
-              </label>
-            </div>
-            <div class="form-check form-check-radio">
-              <label class="form-check-label">
-                <input
-                  checked="checked"
-                  class="form-check-input"
-                  id="exampleRadios1"
-                  name="exampleRadios"
-                  type="radio"
-                  value="Deposito"
-                  [(ngModel)]="option"
-                />
-
-                <span class="form-check-sign"> </span> Depósito
-              </label>
-            </div>
+            <h2>Total: ${{ ticket_counter * ticket_price }} MXN</h2>
           </div>
         </div>
       </div>
@@ -498,6 +449,17 @@
                     <div class="input-group input-group-focus">
                       <div class="input-group-prepend">
                         <div class="input-group-text">
+                          <i class="tim-icons icon-map-big"></i>
+                        </div>
+                      </div>
+                      <span class="form-control">
+                        {{ final_data.direccion }}
+                      </span>
+                    </div>
+
+                    <div class="input-group input-group-focus">
+                      <div class="input-group-prepend">
+                        <div class="input-group-text">
                           <i class="tim-icons icon-bank"></i>
                         </div>
                       </div>
@@ -513,21 +475,14 @@
                         }}
                       </span>
                     </div>
-                    <div class="input-group input-group-focus">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">
-                          <i class="tim-icons icon-credit-card"></i>
-                        </div>
-                      </div>
-                      <span class="form-control">
-                        {{ option }}
-                      </span>
-                    </div>
 
                     <button
                       class="btn btn-danger btn-block"
                       data-target="#myModal1"
-                      [disabled]="selectedTickets.length <= 0"
+                      [disabled]="
+                        selectedTickets.length <= 0 ||
+                        selectedTickets.length != ticket_counter
+                      "
                       style="color: #000"
                       (click)="openSelectedTicketsModal(selectedTicketsModal)"
                     >
@@ -562,9 +517,15 @@
                   <button
                     class="btn btn-danger btn-block"
                     style="color: #000"
-                    [disabled]="!isCheckboxSelected"
+                    [disabled]="
+                      !isCheckboxSelected ||
+                      selectedTickets.length <= 0 ||
+                      selectedTickets.length != ticket_counter
+                    "
                     [@buttonState]="isCheckboxSelected ? 'active' : 'inactive'"
+                    (click)="addParticipante()"
                   >
+                    <!-- al agregar el botón checar que estén todos los boleto seleccionados -->
                     Enviar!
                   </button>
                 </div>

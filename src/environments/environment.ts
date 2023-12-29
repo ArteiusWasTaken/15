@@ -1,9 +1,10 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import Swal from "sweetalert2";
 
 export const environment = {
-  production: false
+  production: false,
 };
 
 /*
@@ -14,3 +15,25 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+
+// export const backend_url = 'http://';
+export const backend_url = "http://localhost:8000/";
+
+export function swalErrorHttpResponse(err) {
+  Swal.fire({
+    title: err.title,
+    icon: "error",
+    html:
+      err.status == 0
+        ? err.message
+        : typeof err.error === "object"
+        ? err.error.error_summary
+          ? err.error.error_summary
+          : err.error.message
+        : err.error,
+  });
+}
+
+export function swalSuccessHttpResponse(res) {
+  Swal.fire(res.title, "", "success");
+}
