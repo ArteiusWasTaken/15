@@ -6,7 +6,7 @@
   <div class="container">
     <div class="navbar-translate">
       <a class="navbar-brand" placement="bottom" [routerLink]="['/home']">
-        <span> Sorteos • Lobo </span>
+        <span> Sorteos • Lobo <br />¡Entre Amigos! </span>
       </a>
       <button
         aria-controls="navigation-index"
@@ -51,6 +51,11 @@
             <i class="tim-icons icon-bag-16"> </i> Boletos
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/mis-tickets']">
+            <i class="tim-icons icon-zoom-split"> </i> Mis Boletos
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -67,13 +72,15 @@
     <div class="container">
       <div class="content-center brand">
         <h2 class="h1-seo" *ngIf="!isMobile">Sorteos • Lobo</h2>
+        <h2 class="" *ngIf="!isMobile">¡Entre Amigos!</h2>
+
         <h3 class="h1-seo" *ngIf="isMobile"></h3>
         <div class="image-container">
           <img
             alt="Rounded image"
             class="img-fluid"
             src="assets/img/logo1.png"
-            style="height: 350px"
+            [style.height.px]="!isMobile ? 350 : 300"
           />
         </div>
         <h3>¡Te damos la bienvenida!</h3>
@@ -99,16 +106,6 @@
             vendidos
           </p>
 
-          <div class="progress-container progress-primary">
-            <span class="progress-badge" style="font-size: 20px">
-              Boletos vendidos:
-            </span>
-            <progressbar class="progress-bar-primary" [value]="sold_tickets">
-              <span class="progress-value" style="font-size: 20px">
-                {{ sold_tickets }} / {{ total_tickets }}</span
-              >
-            </progressbar>
-          </div>
           <div class="row justify-content-between align-items-center">
             <a
               class="btn btn-danger btn-block mt-4"
@@ -126,7 +123,8 @@
                 alt="First slide"
                 class="d-block w-100"
                 src="assets/img/bike.jpg"
-                style="height: 400px"
+                [style.height.px]="!isMobile ? 400 : 242"
+                style="object-fit: cover"
               />
             </slide>
             <slide>
@@ -134,7 +132,8 @@
                 alt="Second slide"
                 class="d-block w-100"
                 src="assets/img/bike2.jpg"
-                style="height: 400px"
+                [style.height.px]="!isMobile ? 400 : 242"
+                style="object-fit: cover"
               />
             </slide>
           </carousel>

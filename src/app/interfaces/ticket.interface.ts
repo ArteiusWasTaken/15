@@ -14,4 +14,5 @@ export interface LoterryTicket {
   number: string;
   selected: boolean;
   blocked: boolean;
+  purchased: boolean;
 }

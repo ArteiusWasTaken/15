@@ -22,6 +22,8 @@ import { IndexComponent } from "./index/index.component";
 import { RifapageComponent } from "./rifas_lobo/rifa/rifa.component";
 import { VerificadorComponent } from "./rifas_lobo/verificador/verificador.component";
 import { MisticketsComponent } from "./rifas_lobo/mistickets/mistickets.component";
+import { NgxSpinnerModule } from "ngx-spinner";
+import { PagosComponent } from './rifas_lobo/pagos/pagos.component';
 
 @NgModule({
   imports: [
@@ -30,6 +32,7 @@ import { MisticketsComponent } from "./rifas_lobo/mistickets/mistickets.componen
     BrowserModule,
     FormsModule,
     RouterModule,
+    NgxSpinnerModule.forRoot(),
     BsDropdownModule.forRoot(),
     ProgressbarModule.forRoot(),
     TooltipModule.forRoot(),
@@ -48,6 +51,7 @@ import { MisticketsComponent } from "./rifas_lobo/mistickets/mistickets.componen
     RifapageComponent,
     VerificadorComponent,
     MisticketsComponent,
+    PagosComponent,
   ],
   exports: [IndexComponent, RifapageComponent],
   providers: [],

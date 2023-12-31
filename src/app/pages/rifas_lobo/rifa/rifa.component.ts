@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { HttpClient } from "@angular/common/http";
+import { NgxSpinnerService } from "ngx-spinner";
 
 import Swal from "sweetalert2";
 import {
@@ -18,7 +19,6 @@ import {
   FinalData,
   LoterryTicket,
   Ticket,
-  BankDataCollection,
   Participante,
 } from "src/app/interfaces";
 
@@ -51,37 +51,18 @@ import {
 export class RifapageComponent implements OnInit, OnDestroy {
   final_data: FinalData = {
     name: "",
-    last_name: "",
     mail: "",
     phone: "",
-    direccion: "",
-    pago: "",
+    state: "",
   };
 
-  bank_data: BankDataCollection = {
-    bancomer: {
-      account: "22222222222222",
-      spei: "3333333333333333333",
-      owner: "Nombre del Titular",
-      name: "BBVA BANCOMER",
-    },
-    santander: {
-      card: "4444444444444444",
-      owner: "Nombre del Titular",
-      name: "SANTANDER",
-    },
-    banorte: {
-      card: "4242424242424242",
-      owner: "Nombre del Titular",
-      name: "BANORTE",
-    },
-  };
   searchTerm: string = "";
   itemsPerPage: number = 5000;
   currentPage: number = 1;
   isCollapsed: boolean = true;
   isCheckboxSelected: boolean = false;
   showSearchField: boolean = false;
+  isLoadingTickets: boolean = false;
 
   modalRef: BsModalRef;
   selectedTicketsModalData: any[] = [];
@@ -90,18 +71,20 @@ export class RifapageComponent implements OnInit, OnDestroy {
   lotteryTickets: LoterryTicket[] = [];
   selectedTickets: LoterryTicket[] = [];
   blockedTickets: string[] = [];
+  purchasedTickets: string[] = [];
   filteredTickets: LoterryTicket[] = [];
 
   ticket_price: number = 7; // pesos
   ticket_counter: number = 0;
-  selected: number = 0;
-  selectedImage: number = 1;
 
-  constructor(private modalService: BsModalService, private http: HttpClient) {}
+  constructor(
+    private modalService: BsModalService,
+    private http: HttpClient,
+    private spinner: NgxSpinnerService
+  ) {}
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    this.selectImage(1);
 
     var body = document.getElementsByTagName("body")[0];
     body.classList.add("rifa-page");
@@ -111,17 +94,21 @@ export class RifapageComponent implements OnInit, OnDestroy {
         this.tickets.push(...response["tickets"]);
 
         this.tickets.forEach((ticket) => {
-          this.blockedTickets.push(ticket.number);
+          ticket.status == 2
+            ? this.blockedTickets.push(ticket.number)
+            : this.purchasedTickets.push(ticket.number);
         });
 
         for (let i = 1; i < 100000; i++) {
           const ticketNumber = i.toString().padStart(5, "0");
           const isBlocked = this.blockedTickets.includes(ticketNumber);
+          const isPurchased = this.purchasedTickets.includes(ticketNumber);
 
           this.lotteryTickets.push({
             number: ticketNumber,
             selected: false,
             blocked: isBlocked,
+            purchased: isPurchased,
           });
         }
 
@@ -136,10 +123,6 @@ export class RifapageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     var body = document.getElementsByTagName("body")[0];
     body.classList.remove("rifa-page");
-  }
-
-  selectImage(imageNumber: number) {
-    this.selectedImage = imageNumber;
   }
 
   add_ticket(n: number) {
@@ -179,18 +162,18 @@ export class RifapageComponent implements OnInit, OnDestroy {
       Swal.fire({
         title: "",
         icon: "error",
-        text: "No tienes una cantidad de tickets válida",
+        text: "No tienes boletos para elegir",
       });
     }
 
     Swal.fire({
       title: "",
-      text: `Seleccionaremos al azar los boletos restantes (${
+      text: `Elegir a la suerte? (${
         this.ticket_counter - this.selectedTickets.length
-      })`,
+      } Boletos)`,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Si, continuar",
+      confirmButtonText: "Dale",
       cancelButtonText: "Cancelar",
     }).then((result) => {
       if (result.isConfirmed) {
@@ -220,11 +203,7 @@ export class RifapageComponent implements OnInit, OnDestroy {
             this.selectedTickets.push(ticket);
           });
 
-          const selectedNumbers = this.selectedTickets.map(
-            (ticket) => ticket.number
-          );
-          console.log("Randomly Selected Numbers:", selectedNumbers);
-          Swal.fire("Seleccionados al azar!", "", "success");
+          Swal.fire("Buena Suerte!", "", "success");
         } else {
           Swal.fire("No hay suficientes boletos disponibles", "", "error");
         }
@@ -234,7 +213,7 @@ export class RifapageComponent implements OnInit, OnDestroy {
 
   deleteAllSelections() {
     Swal.fire({
-      title: "¿Eliminar todas las selecciones?",
+      title: "¿Eliminar elegidos?",
       icon: "warning",
       showCancelButton: true,
       confirmButtonText: "Sí, eliminar",
@@ -246,7 +225,7 @@ export class RifapageComponent implements OnInit, OnDestroy {
         if (this.modalRef) {
           this.selectedTicketsModalData = [...this.selectedTickets];
         }
-        Swal.fire("Eliminadas todas las selecciones", "", "success");
+        Swal.fire("Eliminadas elegidos", "", "success");
       }
     });
   }
@@ -271,12 +250,15 @@ export class RifapageComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template, { class: "modal-lg" });
   }
 
-  toggleSearchField() {
+  toggleSearchField(MyModalComponent) {
     this.showSearchField = !this.showSearchField;
     if (!this.showSearchField) {
       this.searchTerm = "";
       this.onSearchChange();
     }
+    const modalRef: BsModalRef = this.modalService.show(MyModalComponent, {
+      backdrop: "static",
+    });
   }
 
   clearSearch() {
@@ -334,10 +316,10 @@ export class RifapageComponent implements OnInit, OnDestroy {
     form_data_check.append("data", JSON.stringify(data));
 
     let participante: Participante = {
-      name: this.final_data.name + " " + this.final_data.last_name,
+      name: this.final_data.name,
       email: this.final_data.mail,
       phone: this.final_data.phone,
-      address: this.final_data.direccion,
+      state: this.final_data.state,
       crear: 0,
     };
 
@@ -349,7 +331,7 @@ export class RifapageComponent implements OnInit, OnDestroy {
     console.log(final_tickets);
 
     const form_data_add = new FormData();
-
+    this.spinner.show();
     this.http
       .post(`${backend_url}checkParticipante`, form_data_check)
       .subscribe(
@@ -361,13 +343,37 @@ export class RifapageComponent implements OnInit, OnDestroy {
               .post(`${backend_url}addParticipante`, form_data_add)
               .subscribe(
                 (response) => {
+                  const mensaje = `ID: ${response["clave"]}<br/>Contraseña: ${response["password"]}<br/>Continuar a Whatsapp para enviar la información`;
                   console.log(response);
+                  this.resetVariables();
+                  this.spinner.hide();
+                  Swal.fire({
+                    title: "¡Boletos apartados!",
+                    html: mensaje,
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    confirmButtonText: "Continuar",
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: true, // Permite la selección del texto
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      console.log("Aqui se va a WSP");
+                    }
+                  });
+                  Swal.getPopup().addEventListener("touchstart", function (e) {
+                    e.stopPropagation();
+                  });
                 },
                 (error) => {
+                  this.resetVariables();
+                  this.spinner.hide();
                   swalErrorHttpResponse(error);
                 }
               );
           } else {
+            this.spinner.hide();
             Swal.fire({
               title: "",
               html: `Ya existe un registro con el correo ${this.final_data.mail}<br/> Selecciona continuar para seguir, cancelar para usar otro`,
@@ -379,6 +385,8 @@ export class RifapageComponent implements OnInit, OnDestroy {
               if (!result.isConfirmed) {
                 return;
               }
+              this.spinner.show();
+
               participante.crear = 1;
               form_data_add.append("data", JSON.stringify(participante));
               form_data_add.append("tickets", JSON.stringify(final_tickets));
@@ -386,9 +394,35 @@ export class RifapageComponent implements OnInit, OnDestroy {
                 .post(`${backend_url}addParticipante`, form_data_add)
                 .subscribe(
                   (response) => {
+                    const mensaje = `ID: ${response["clave"]}<br/>Contraseña: ${response["password"]}<br/>Continuar a Whatsapp para enviar la información`;
                     console.log(response);
+                    this.resetVariables();
+                    this.spinner.hide();
+                    Swal.fire({
+                      title: "¡Boletos apartados!",
+                      html: mensaje,
+                      icon: "success",
+                      showCancelButton: false,
+                      confirmButtonColor: "#3085d6",
+                      confirmButtonText: "Continuar",
+                      allowOutsideClick: false,
+                      allowEscapeKey: false,
+                      allowEnterKey: true, // Permite la selección del texto
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        console.log("Aqui se va a WSP");
+                      }
+                    });
+                    Swal.getPopup().addEventListener(
+                      "touchstart",
+                      function (e) {
+                        e.stopPropagation();
+                      }
+                    );
                   },
                   (error) => {
+                    this.resetVariables();
+                    this.spinner.hide();
                     swalErrorHttpResponse(error);
                   }
                 );
@@ -396,8 +430,33 @@ export class RifapageComponent implements OnInit, OnDestroy {
           }
         },
         (error) => {
+          this.spinner.hide();
           swalErrorHttpResponse(error);
         }
       );
+  }
+  resetVariables() {
+    this.final_data = {
+      name: "",
+      mail: "",
+      phone: "",
+      state: "",
+    };
+    this.searchTerm = "";
+    this.itemsPerPage = 5000;
+    this.currentPage = 1;
+    this.isCollapsed = true;
+    this.isCheckboxSelected = false;
+    this.showSearchField = false;
+    this.modalRef = null;
+    this.selectedTicketsModalData = [];
+    this.tickets = [];
+    this.lotteryTickets = [];
+    this.selectedTickets = [];
+    this.blockedTickets = [];
+    this.filteredTickets = [];
+    this.ticket_price = 7;
+    this.ticket_counter = 0;
+    this.ngOnInit();
   }
 }

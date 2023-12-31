@@ -6,7 +6,7 @@
   <div class="container">
     <div class="navbar-translate">
       <a class="navbar-brand" placement="bottom" [routerLink]="['/home']">
-        <span> Sorteos • Lobo </span>
+        <span> Sorteos • Lobo <br />¡Entre Amigos! </span>
       </a>
       <button
         aria-controls="navigation-index"
@@ -66,93 +66,54 @@
         <div class="col-lg-6 col-md-6">
           <h1 class="profile-title text-left">Elige tus boletos</h1>
           <h5 class="text-on-back">01</h5>
-          <p class="profile-description">
-            En la tabla de la derecha seleciona cuántos boletos comprarás.<br />
-            ¡Entre más boletos, más oportunidades tienes de ganar!
-          </p>
 
           <h2>Precio del boleto: ${{ ticket_price }} MXN</h2>
         </div>
         <div class="col-lg-4 col-md-6 ml-auto mr-auto">
           <div class="card card-coin card-plain">
             <div class="card-header">
-              <h4 class="title">Tu selección</h4>
+              <h4 class="title">Seleccionador</h4>
             </div>
             <div class="card-body">
               <div class="row justify-content-center">
-                <h1 class="text-white">Boletos a elegir</h1>
+                <h1 class="text-white">Boletos para elegir</h1>
               </div>
-              <div class="row justify-content-around">
-                <button
-                  class="btn btn-simple btn-danger btn-icon btn-round"
-                  type="submit"
-                  (click)="sub_ticket(1)"
-                >
-                  <i class="tim-icons icon-simple-delete"> </i>
-                </button>
-                <h1>{{ ticket_counter }}</h1>
-                <button
-                  class="btn btn-simple btn-danger btn-icon btn-round"
-                  type="submit"
-                  (click)="add_ticket(1)"
-                >
-                  <i class="tim-icons icon-simple-add"> </i>
-                </button>
+              <div class="row justify-content-around align-items-center">
+                <div class="col-2">
+                  <button
+                    class="btn btn-simple btn-danger btn-icon btn-round"
+                    type="submit"
+                    (click)="sub_ticket(1)"
+                  >
+                    <i class="tim-icons icon-simple-delete"> </i>
+                  </button>
+                </div>
+
+                <div class="col-8">
+                  <div class="col-auto">
+                    <input
+                      type="number"
+                      id="ticketCounterInput"
+                      class="form-control text-center"
+                      [(ngModel)]="ticket_counter"
+                      name="ticket_counter"
+                      style="font-size: x-large"
+                    />
+                  </div>
+                </div>
+
+                <div class="col-2">
+                  <button
+                    class="btn btn-simple btn-danger btn-icon btn-round"
+                    type="submit"
+                    (click)="add_ticket(1)"
+                  >
+                    <i class="tim-icons icon-simple-add"> </i>
+                  </button>
+                </div>
               </div>
-              <div class="row justify-content-around">
+              <div class="row justify-content-around pt-3">
                 <h2>Total: ${{ ticket_counter * ticket_price }} MXN</h2>
-              </div>
-              <div class="row justify-content-around">
-                <button
-                  class="btn btn-primary btn-danger"
-                  (click)="add_ticket(10)"
-                  type="submit"
-                  style="color: #000"
-                >
-                  +10
-                </button>
-                <button
-                  class="btn btn-primary btn-danger"
-                  (click)="add_ticket(100)"
-                  type="submit"
-                  style="color: #000"
-                >
-                  +100
-                </button>
-                <button
-                  class="btn btn-primary btn-danger"
-                  (click)="add_ticket(1000)"
-                  type="submit"
-                  style="color: #000"
-                >
-                  +1000
-                </button>
-              </div>
-              <div class="row justify-content-around">
-                <button
-                  class="btn btn-primary btn-danger"
-                  (click)="sub_ticket(10)"
-                  type="submit"
-                  style="color: #000"
-                >
-                  -10
-                </button>
-                <button
-                  class="btn btn-primary btn-danger"
-                  (click)="sub_ticket(100)"
-                  type="submit"
-                  style="color: #000"
-                >
-                  -100
-                </button>
-                <button
-                  class="btn btn-primary btn-danger"
-                  (click)="sub_ticket(1000)"
-                  type="submit"
-                  style="color: #000"
-                >
-                  -1000
-                </button>
               </div>
             </div>
           </div>
@@ -161,11 +122,10 @@
     </div>
   </div>
 
-  <div class="container" *ngIf="ticket_counter > 0">
+  <div class="container">
     <div class="row justify-content-center">
       <h1 class="title">Lista de boletos</h1>
     </div>
-
     <div class="row justify-content-center mb-4">
       <div class="search-icon-container text-center">
         <button
@@ -173,7 +133,7 @@
           style="margin: 0"
           type="button"
           style="color: #000"
-          (click)="toggleSearchField()"
+          (click)="toggleSearchField(loadingModal)"
         >
           <i
             class="{{ showSearchField ? 'fas fa-times' : 'fas fa-search' }}"
@@ -191,6 +151,17 @@
         />
       </div>
     </div>
+    <div class="row justify-content-center">
+      <button
+        class="btn btn-danger"
+        style="color: #000"
+        data-target="#myModal1"
+        [disabled]="ticket_counter - selectedTickets.length <= 0"
+        (click)="selectRandomNumbers()"
+      >
+        Maquinita de la suerte
+      </button>
+    </div>
 
     <div class="scrollable-container">
       <div class="container">
@@ -200,7 +171,11 @@
               class="lottery-ticket"
               (click)="toggleSelection(ticket)"
               [attr.id]="'ticket-' + ticket.number"
-              [ngClass]="{ selected: ticket.selected, blocked: ticket.blocked }"
+              [ngClass]="{
+                selected: ticket.selected,
+                blocked: ticket.blocked,
+                purchased: ticket.purchased
+              }"
             >
               <span class="ticket-number">{{ ticket.number }}</span>
             </div>
@@ -213,28 +188,15 @@
       <pagination
         [totalItems]="filteredTickets.length"
         [(ngModel)]="currentPage"
-        [maxSize]="10"
+        [maxSize]="9"
         [itemsPerPage]="itemsPerPage"
         (pageChanged)="onPageChange($event.page)"
         class="pagination-danger"
         previousText="&lsaquo;"
         nextText="&rsaquo;"
-        firstText="&laquo;"
-        lastText="&raquo;"
-        [boundaryLinks]="true"
       ></pagination>
     </div>
-    <div class="row justify-content-center">
-      <button
-        class="btn btn-danger"
-        style="color: #000"
-        data-target="#myModal1"
-        [disabled]="ticket_counter - selectedTickets.length <= 0"
-        (click)="selectRandomNumbers()"
-      >
-        Selección al azar
-      </button>
-    </div>
+
     <div class="row justify-content-around">
       <div>
         <button
@@ -244,7 +206,7 @@
           style="color: #000"
           (click)="openSelectedTicketsModal(selectedTicketsModal)"
         >
-          Ver Seleccionados ({{ selectedTickets.length }})
+          Ver tus boletos ({{ selectedTickets.length }})
         </button>
       </div>
       <div>
@@ -255,7 +217,7 @@
           style="color: #000"
           (click)="deleteAllSelections(selectedTicketsModal)"
         >
-          Eliminar Seleccionados ({{ selectedTickets.length }})
+          Eliminar Elegidos ({{ selectedTickets.length }})
         </button>
       </div>
     </div>
@@ -267,10 +229,7 @@
         <div class="col-md-5">
           <h1 class="profile-title text-left">Datos de contacto</h1>
           <h5 class="text-on-back">02</h5>
-          <p class="profile-description text-left">
-            Registra tus datos personales <br />¡Estos son importantes para
-            contactarnos contigo en caso de ser el Ganador!
-          </p>
+          <p class="profile-description text-left"></p>
         </div>
 
         <div class="col-md-6">
@@ -278,29 +237,16 @@
             <div class="row justify-content-between align-items-center pt-5">
               <form>
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-12">
                     <div class="form-group">
-                      <label> Nombre(s) </label>
+                      <label> Nombre </label>
                       <input
                         class="form-control"
                         type="text"
                         value=""
-                        placeholder="Miguel Angel"
+                        placeholder="Juan Perez Hernandez"
                         [(ngModel)]="final_data.name"
                         name="name"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label> Apellido(s) </label>
-                      <input
-                        class="form-control"
-                        type="text"
-                        value=""
-                        placeholder="Herrera Cairo"
-                        name="lastname"
-                        [(ngModel)]="final_data.last_name"
                       />
                     </div>
                   </div>
@@ -310,7 +256,7 @@
                       <input
                         name="email"
                         class="form-control"
-                        placeholder="mike@email.com"
+                        placeholder="jhon@email.com"
                         type="email"
                         [(ngModel)]="final_data.mail"
                       />
@@ -330,13 +276,13 @@
                   </div>
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label> Dirección </label>
+                      <label> Estado </label>
                       <input
-                        name="dirección"
+                        name="estado"
                         class="form-control"
                         type="text"
-                        placeholder="Av. Siempre viva #742"
-                        [(ngModel)]="final_data.direccion"
+                        placeholder="Jalisco"
+                        [(ngModel)]="final_data.state"
                       />
                     </div>
                   </div>
@@ -349,64 +295,12 @@
     </div>
   </div>
 
-  <section class="section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="card card-plain">
-            <div class="card-header">
-              <h1 class="profile-title text-left">Pago</h1>
-              <h5 class="text-on-back">03</h5>
-              <p class="profile-description text-left">
-                Tenemos la(las) siguientes cuenta(s) para procesar tu pedido.
-                <br />Te haremos llegar las instrucciones vía correo electronico
-                y/o WhatsApp
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="row justify-content-around align-items-center pt-5">
-            <img
-              alt="Circle image"
-              class="img-fluid rounded shadow-lg"
-              src="assets/img/santander.png"
-              [style.opacity]="selectedImage === 1 ? '1' : '0.25'"
-              (click)="selectImage(1)"
-              style="cursor: pointer"
-            />
-          </div>
-
-          <div [ngSwitch]="selectedImage">
-            <div *ngSwitchCase="1">
-              <div class="row justify-content-around align-items-center pt-5">
-                <h1>{{ bank_data.santander.name }}</h1>
-              </div>
-            </div>
-            <div *ngSwitchCase="2">
-              <div class="row justify-content-around align-items-center pt-5">
-                <h1>{{ bank_data.bancomer.name }}</h1>
-              </div>
-            </div>
-            <div *ngSwitchCase="3">
-              <div class="row justify-content-around align-items-center pt-5">
-                <h1>{{ bank_data.banorte.name }}</h1>
-              </div>
-              <div *ngSwitchDefault>ERROR</div>
-            </div>
-            <h2>Total: ${{ ticket_counter * ticket_price }} MXN</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <div class="section">
     <div class="container">
       <div class="row justify-content-between">
         <div class="col-md-5">
-          <h1 class="profile-title text-left">Resumen del pedido</h1>
-          <h5 class="text-on-back">04</h5>
+          <h1 class="profile-title text-left">Tu participación</h1>
+          <h5 class="text-on-back">03</h5>
         </div>
         <div class="col-md-6">
           <div class="container">
@@ -453,26 +347,7 @@
                         </div>
                       </div>
                       <span class="form-control">
-                        {{ final_data.direccion }}
-                      </span>
-                    </div>
-
-                    <div class="input-group input-group-focus">
-                      <div class="input-group-prepend">
-                        <div class="input-group-text">
-                          <i class="tim-icons icon-bank"></i>
-                        </div>
-                      </div>
-                      <span class="form-control">
-                        {{
-                          selectedImage == 1
-                            ? bank_data.santander.name
-                            : selectedImage == 2
-                            ? bank_data.bancomer.name
-                            : selectedImage == 3
-                            ? bank_data.banorte.name
-                            : ""
-                        }}
+                        {{ final_data.state }}
                       </span>
                     </div>
 
@@ -486,14 +361,16 @@
                       style="color: #000"
                       (click)="openSelectedTicketsModal(selectedTicketsModal)"
                     >
-                      Boletos Seleccionados {{ selectedTickets.length }} /
+                      Boletos {{ selectedTickets.length }} /
                       {{ ticket_counter }}
                     </button>
                     <h5>
-                      Tus números se quedarán apartados por 12 horas. En cuanto
-                      confirmemos el pago procederemos a bloquearlos
-                      definitivamente
+                      Al finalizar, serás redirigido a Whatsap para enviar la
+                      información de
+                      {{ ticket_counter > 1 ? "tus boletos" : "tu boleto" }}
                     </h5>
+                    <h5>Tus números se quedarán apartados por 12 horas.</h5>
+
                     <h2>Total: ${{ ticket_counter * ticket_price }} MXN</h2>
 
                     <div class="form-check text-left">
@@ -520,12 +397,15 @@
                     [disabled]="
                       !isCheckboxSelected ||
                       selectedTickets.length <= 0 ||
-                      selectedTickets.length != ticket_counter
+                      selectedTickets.length != ticket_counter ||
+                      !final_data.name ||
+                      !final_data.mail ||
+                      !final_data.phone ||
+                      !final_data.state
                     "
                     [@buttonState]="isCheckboxSelected ? 'active' : 'inactive'"
                     (click)="addParticipante()"
                   >
-                    <!-- al agregar el botón checar que estén todos los boleto seleccionados -->
                     Enviar!
                   </button>
                 </div>
@@ -570,3 +450,30 @@
     </button>
   </div>
 </ng-template>
+
+<ng-template #loadingModal>
+  <div class="modal-header">
+    <h4 class="modal-title">Loading...</h4>
+  </div>
+  <div class="modal-body">
+    <div class="text-center">
+      <!-- Add your loading spinner or indication here -->
+      <ngx-spinner
+        bdColor="rgba(0, 0, 0, 0.8)"
+        size="medium"
+        color="#fff"
+        type="square-jelly-box"
+        [fullScreen]="true"
+        ><p style="color: white">Loading...</p></ngx-spinner
+      >
+    </div>
+  </div>
+</ng-template>
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="rgb(199, 171, 12)"
+  type="pacman"
+>
+  <p style="font-size: 20px; color: rgb(199, 171, 12)">Procesando...</p>
+</ngx-spinner>

@@ -1,206 +1,5 @@
 // style for the landing page
-.index4-page {
-  .page-header {
-    height: 100vh;
 
-    .container {
-      > .content-center {
-        &.brand {
-          .h1-seo,
-          h3 {
-            color: $white;
-            font-weight: 600;
-            text-transform: capitalize;
-            span {
-              font-weight: $font-weight-bold;
-            }
-          }
-        }
-      }
-    }
-
-    .category-absolute {
-      position: absolute;
-      top: 100vh;
-      margin-top: -60px;
-      padding: 0 15px;
-      width: 100%;
-      color: rgba(255, 255, 255, 0.5);
-    }
-  }
-
-  .squares {
-    animation: move-left-right 1s infinite;
-    @include linear-gradient($primary-states, $primary);
-    position: absolute;
-    transition: 0.5s ease-out;
-    overflow: hidden;
-    border-radius: 20%;
-    &.square1 {
-      animation: move-left-right 4s infinite;
-      height: 300px;
-      width: 300px;
-      opacity: 0.5;
-      left: 3%;
-      top: -21%;
-    }
-
-    &.square2 {
-      animation: move-left-right 6s infinite;
-      height: 400px;
-      width: 400px;
-      opacity: 0.4;
-      right: -5%;
-      top: -12%;
-    }
-
-    &.square3 {
-      animation: move-left-right 5s infinite;
-      height: 200px;
-      width: 200px;
-      opacity: 0.1;
-      left: -5%;
-      bottom: 0%;
-    }
-
-    &.square4 {
-      animation: move-left-right 10s infinite;
-      height: 100px;
-      width: 100px;
-      opacity: 0.9;
-      right: 27%;
-      top: 70%;
-    }
-
-    &.square5 {
-      animation: move-left-right 6s infinite;
-      height: 250px;
-      width: 250px;
-      opacity: 0.1;
-      left: 32%;
-      bottom: 29%;
-    }
-
-    &.square6 {
-      animation: move-left-right 9s infinite;
-      left: 10%;
-      top: 35%;
-      height: 80px;
-      width: 80px;
-      opacity: 0.8;
-    }
-
-    &.square7 {
-      animation: move-left-right 3s infinite;
-      width: 300px;
-      height: 300px;
-      right: -5%;
-      bottom: 0%;
-      opacity: 0.1;
-    }
-  }
-}
-.index2-page {
-  .page-header {
-    height: 100vh;
-
-    .container {
-      > .content-center {
-        &.brand {
-          .h1-seo,
-          h3 {
-            color: $white;
-            font-weight: 600;
-            text-transform: capitalize;
-            span {
-              font-weight: $font-weight-bold;
-            }
-          }
-        }
-      }
-    }
-
-    .category-absolute {
-      position: absolute;
-      top: 100vh;
-      margin-top: -60px;
-      padding: 0 15px;
-      width: 100%;
-      color: rgba(255, 255, 255, 0.5);
-    }
-  }
-
-  .squares {
-    animation: move-left-right 1s infinite;
-    @include linear-gradient($primary-states, $primary);
-    position: absolute;
-    transition: 0.5s ease-out;
-    overflow: hidden;
-    border-radius: 20%;
-    &.square1 {
-      animation: move-left-right 4s infinite;
-      height: 300px;
-      width: 300px;
-      opacity: 0.5;
-      left: 3%;
-      top: -21%;
-    }
-
-    &.square2 {
-      animation: move-left-right 6s infinite;
-      height: 400px;
-      width: 400px;
-      opacity: 0.4;
-      right: -5%;
-      top: -12%;
-    }
-
-    &.square3 {
-      animation: move-left-right 5s infinite;
-      height: 200px;
-      width: 200px;
-      opacity: 0.1;
-      left: -5%;
-      bottom: 0%;
-    }
-
-    &.square4 {
-      animation: move-left-right 10s infinite;
-      height: 100px;
-      width: 100px;
-      opacity: 0.9;
-      right: 27%;
-      top: 70%;
-    }
-
-    &.square5 {
-      animation: move-left-right 6s infinite;
-      height: 250px;
-      width: 250px;
-      opacity: 0.1;
-      left: 32%;
-      bottom: 29%;
-    }
-
-    &.square6 {
-      animation: move-left-right 9s infinite;
-      left: 10%;
-      top: 35%;
-      height: 80px;
-      width: 80px;
-      opacity: 0.8;
-    }
-
-    &.square7 {
-      animation: move-left-right 3s infinite;
-      width: 300px;
-      height: 300px;
-      right: -5%;
-      bottom: 0%;
-      opacity: 0.1;
-    }
-  }
-}
 .index-page {
   h3 {
     color: #fff; // Set the text color
@@ -505,13 +304,13 @@
 // style for the profile page
 .rifa-page {
   .search-icon-btn {
-    height: 38px; // Set the height to match the search field
+    height: 38px;
   }
   .scrollable-container {
     max-height: 400px;
     max-width: 760px;
     overflow: auto;
-    margin: auto; /* Center the container horizontally */
+    margin: auto;
   }
 
   .lottery-grid {
@@ -527,9 +326,9 @@
     border: 1px solid $danger;
     padding: 10px;
     cursor: pointer;
-    border-radius: 8px; /* Add this property for rounded corners */
-    position: relative; /* Position relative for absolute positioning of the circle */
-    transition: background-color 0.3s ease; /* Add transition property */
+    border-radius: 8px;
+    position: relative;
+    transition: background-color 0.3s ease;
 
     .ticket-number {
       font-size: 16px;
@@ -541,7 +340,12 @@
       color: #000;
     }
     &.blocked {
-      background-color: #ffcccc; // Adjust the color as per your design
+      background-color: #c7ecc7;
+      color: #333;
+    }
+    &.purchased {
+      background-color: #ff9999;
+      color: #333;
     }
   }
   .delete-indicator {
@@ -835,8 +639,6 @@
 }
 
 .index-page,
-.index2-page,
-.index4-page,
 .landing-page,
 .rifa-page,
 .register-page {
