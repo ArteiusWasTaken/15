@@ -16,8 +16,7 @@ export const environment = {
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
 
-export const backend_url =
-  "https://arteiuswastaken.github.io/sorteo-back-main/";
+export const backend_url = "http://devployers.tech/";
 // export const backend_url = "http://localhost:8000/";
 
 export function swalErrorHttpResponse(err) {
