@@ -215,7 +215,7 @@
           data-target="#myModal1"
           [disabled]="selectedTickets.length === 0"
           style="color: #000"
-          (click)="deleteAllSelections(selectedTicketsModal)"
+          (click)="deleteAllSelections()"
         >
           Eliminar Elegidos ({{ selectedTickets.length }})
         </button>
@@ -317,7 +317,7 @@
                         </div>
                       </div>
                       <span class="form-control">
-                        {{ final_data.name }} {{ final_data.last_name }}
+                        {{ final_data.name }}
                       </span>
                     </div>
                     <div class="input-group input-group-focus">
