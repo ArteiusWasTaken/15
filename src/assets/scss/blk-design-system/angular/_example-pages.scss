@@ -1,12 +1,10 @@
 .index-page .squares {
   @include linear-gradient($danger-states, $danger);
 }
-.index4-page .squares {
-  @include linear-gradient($danger-states, $danger);
+.verificador-page .squares {
+  @include linear-gradient(rgba(255, 217, 0, 0.451), rgba(255, 255, 0, 0.336));
 }
-.index2-page .squares {
-  @include linear-gradient($danger-states, $danger);
-}
+
 .register-page,
 .section.section-signup {
   .squares,
