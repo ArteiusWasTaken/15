@@ -12,3 +12,10 @@ export interface Participante {
   state: string;
   crear: number;
 }
+
+export interface Tarjeta {
+  nombre: string;
+  numero: string;
+  tipo: string;
+  banco: string;
+}
