@@ -250,15 +250,12 @@ export class RifapageComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.show(template, { class: "modal-lg" });
   }
 
-  toggleSearchField(MyModalComponent) {
+  toggleSearchField() {
     this.showSearchField = !this.showSearchField;
     if (!this.showSearchField) {
       this.searchTerm = "";
       this.onSearchChange();
     }
-    const modalRef: BsModalRef = this.modalService.show(MyModalComponent, {
-      backdrop: "static",
-    });
   }
 
   clearSearch() {

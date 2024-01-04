@@ -4,8 +4,8 @@ export const environment = {
   production: true,
 };
 
-export const backend_url = "https://devployers.tech/";
-// export const backend_url = "http://localhost:8000/";
+// export const backend_url = "https://devployers.tech/";
+export const backend_url = "http://localhost:8000/";
 
 export function swalErrorHttpResponse(err) {
   Swal.fire({
