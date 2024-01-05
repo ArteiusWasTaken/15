@@ -1,53 +1,3 @@
-<!-- <nav
-  class="navbar navbar-expand-lg fixed-top navbar-transparent"
-  color-on-scroll="100"
-  id="navbar-top"
->
-  <div class="container">
-    <div class="navbar-translate">
-      <a class="navbar-brand" placement="bottom" [routerLink]="['/home']">
-        <span> Sorteos • Lobo <br />¡Entre Amigos! </span>
-      </a>
-      <button
-        aria-controls="navigation-index"
-        aria-label="Toggle navigation"
-        class="navbar-toggler navbar-toggler"
-        [attr.aria-expanded]="!isCollapsed"
-        (click)="isCollapsed = !isCollapsed"
-        id="navigation"
-        type="button"
-      >
-        <span class="navbar-toggler-bar bar1"> </span>
-        <span class="navbar-toggler-bar bar2"> </span>
-        <span class="navbar-toggler-bar bar3"> </span>
-      </button>
-    </div>
-    <div
-      class="navbar-collapse justify-content-end"
-      [collapse]="isCollapsed"
-      id="navigation"
-    >
-      <div class="navbar-collapse-header">
-        <div class="row">
-          <div class="col-6 collapse-brand"><a> Sorteos • Lobo </a></div>
-          <div class="col-6 collapse-close text-right">
-            <button
-              aria-controls="navigation-index"
-              aria-label="Toggle navigation"
-              class="navbar-toggler"
-              [attr.aria-expanded]="!isCollapsed"
-              (click)="isCollapsed = !isCollapsed"
-              id="navigation"
-              type="button"
-            >
-              <i class="tim-icons icon-simple-remove"> </i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav> -->
 <div class="wrapper">
   <div class="page-header header-filter">
     <div class="squares square1"></div>
@@ -58,66 +8,129 @@
     <div class="squares square6"></div>
     <div class="squares square7"></div>
     <div class="container">
-      <div class="content-center brand">
+      <div class="content-center">
         <div class="section">
           <div class="container">
             <div class="row justify-content-center">
               <h1 class="h1-seo">Verificador</h1>
             </div>
 
-            <div class="row justify-content-between">
-              <div class="row justify-content-between align-items-center pt-5">
+            <div class="row">
+              <div class="row align-items-center pt-5">
                 <form>
                   <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group">
+                    <div class="col-md-10">
+                      <div class="form-group" [hidden]="participantes.length > 0">
                         <label> Nombre </label>
                         <input
+                                type="text"
+                                name="name_participant"
+                                id="name_participant"
+                                class="form-control"
+                                [(ngModel)]="data.name"
+                                (keyup.enter)="getParticipant()"
+                        />
+                      </div>
+                      <div class="form-group" [hidden]="participantes.length == 0">
+                        <label> Nombre </label>
+                        <select
+                                name="participant_id"
+                                id="participant_id"
+                                class="form-control"
+                                style="color: white"
+                                [(ngModel)]="final_data.id_participante"
+                        >
+                          <option value="" selected disabled></option>
+                          <option
+                                  value="{{ participante.id }}"
+                                  *ngFor="let participante of participantes"
+                                  style="color: black"
+                          >
+                            {{
+                            participante.name
+                            }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group" [hidden]="participantes.length > 0">
+                        <label></label>
+                        <button
+                                class="btn btn-danger btn-block"
+                                style="color: #000"
+                                (click)="getParticipant()"
+                        >
+                          Buscar!
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label>Clave (Tickets)</label>
+                        <input
+                          name="clave"
                           class="form-control"
+                          placeholder="xhj89Hfc12"
                           type="text"
-                          value=""
-                          placeholder="Juan Perez Hernandez"
-                          name="name"
+                          [(ngModel)]="final_data.tickets"
                         />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <label> Correo Electronico </label>
+                        <label> Folio </label>
                         <input
-                          name="email"
-                          class="form-control"
-                          placeholder="jhon@email.com"
-                          type="email"
-                        />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label> Teléfono </label>
-                        <input
-                          name="phone"
+                          name="folio"
                           class="form-control"
                           type="text"
                           placeholder="0011223344"
+                          [(ngModel)]="final_data.folio"
                         />
                       </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                       <div class="form-group">
-                        <label> Estado </label>
+                        <label> Monto </label>
                         <input
-                          name="estado"
+                          name="monto"
                           class="form-control"
                           type="text"
-                          placeholder="Jalisco"
+                          placeholder="1250"
+                          [(ngModel)]="final_data.amount"
                         />
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label> Metodo de pago </label>
+                        <select
+                                name="payment_method"
+                                id="payment_method"
+                                class="form-control"
+                                style="color: white"
+                                [(ngModel)]="final_data.payment_method"
+                        >
+                          <option value="" selected disabled></option>
+                          <option value="TRANSFERENCIA" style="color: black">
+                            Transferencia
+                          </option>
+                          <option value="EFECTIVO" style="color: black">
+                            Efectivo
+                          </option>
+                        </select>
                       </div>
                     </div>
                   </div>
                 </form>
               </div>
             </div>
+            <button
+                    class="btn btn-danger btn-block"
+                    style="color: #000"
+                    (click)="addPayment()">
+              Agregar Pago!
+            </button>
           </div>
         </div>
       </div>
