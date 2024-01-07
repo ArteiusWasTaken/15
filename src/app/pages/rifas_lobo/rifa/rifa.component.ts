@@ -353,6 +353,7 @@ export class RifapageComponent implements OnInit, OnDestroy {
                 (response) => {
                   const mensaje = `ID: ${response["clave"]}<br/>Contraseña: ${response["password"]}<br/>Continuar a Whatsapp para enviar la información`;
                   console.log(response);
+                  this.resetVariables();
                   this.correoParticipanteData = {
                     name: response["name"],
                     pw: response["password"],
@@ -371,27 +372,26 @@ export class RifapageComponent implements OnInit, OnDestroy {
                     allowEnterKey: true, // Permite la selección del texto
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      const form_data_correo = new FormData();
-                      form_data_correo.append(
-                        "data",
-                        JSON.stringify(this.correoParticipanteData)
-                      );
-                      console.log(this.correoParticipanteData);
-
-                      this.http
-                        .post<any>(
-                          `${backend_url}enviarCorreo`,
-                          form_data_correo,
-                          { headers: this.headers }
-                        )
-                        .subscribe(
-                          (response) => {
-                            this.resetVariables();
-                          },
-                          (error) => {
-                            swalErrorHttpResponse(error);
-                          }
-                        );
+                      // const form_data_correo = new FormData();
+                      // form_data_correo.append(
+                      //   "data",
+                      //   JSON.stringify(this.correoParticipanteData)
+                      // );
+                      // console.log(this.correoParticipanteData);
+                      // this.http
+                      //   .post<any>(
+                      //     `${backend_url}enviarCorreo`,
+                      //     form_data_correo,
+                      //     { headers: this.headers }
+                      //   )
+                      //   .subscribe(
+                      //     (response) => {
+                      //       this.resetVariables();
+                      //     },
+                      //     (error) => {
+                      //       swalErrorHttpResponse(error);
+                      //     }
+                      //   );
                     }
                   });
                   Swal.getPopup().addEventListener("touchstart", function (e) {
@@ -427,6 +427,7 @@ export class RifapageComponent implements OnInit, OnDestroy {
                 .subscribe(
                   (response) => {
                     const mensaje = `ID: ${response["clave"]}<br/>Contraseña: ${response["password"]}<br/>Continuar a Whatsapp para enviar la información`;
+                    this.resetVariables();
                     console.log(response);
                     this.correoParticipanteData = {
                       name: response["name"],
@@ -446,27 +447,26 @@ export class RifapageComponent implements OnInit, OnDestroy {
                       allowEnterKey: true, // Permite la selección del texto
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        const form_data_correo = new FormData();
-                        form_data_correo.append(
-                          "data",
-                          JSON.stringify(this.correoParticipanteData)
-                        );
-                        console.log(this.correoParticipanteData);
-
-                        this.http
-                          .post<any>(
-                            `${backend_url}enviarCorreo`,
-                            form_data_correo,
-                            { headers: this.headers }
-                          )
-                          .subscribe(
-                            (response) => {
-                              this.resetVariables();
-                            },
-                            (error) => {
-                              swalErrorHttpResponse(error);
-                            }
-                          );
+                        // const form_data_correo = new FormData();
+                        // form_data_correo.append(
+                        //   "data",
+                        //   JSON.stringify(this.correoParticipanteData)
+                        // );
+                        // console.log(this.correoParticipanteData);
+                        // this.http
+                        //   .post<any>(
+                        //     `${backend_url}enviarCorreo`,
+                        //     form_data_correo,
+                        //     { headers: this.headers }
+                        //   )
+                        //   .subscribe(
+                        //     (response) => {
+                        //       this.resetVariables();
+                        //     },
+                        //     (error) => {
+                        //       swalErrorHttpResponse(error);
+                        //     }
+                        //   );
                       }
                     });
                     Swal.getPopup().addEventListener(
