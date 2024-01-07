@@ -19,3 +19,9 @@ export interface Tarjeta {
   tipo: string;
   banco: string;
 }
+
+export interface CorreoParticipante {
+  name: string;
+  pw: string;
+  code: string;
+}

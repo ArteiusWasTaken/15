@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { NgxSpinnerService } from "ngx-spinner";
 
 import Swal from "sweetalert2";
@@ -20,6 +20,7 @@ import {
   LoterryTicket,
   Ticket,
   Participante,
+  CorreoParticipante,
 } from "src/app/interfaces";
 
 @Component({
@@ -49,6 +50,10 @@ import {
   ],
 })
 export class RifapageComponent implements OnInit, OnDestroy {
+  headers = new HttpHeaders({
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  });
   final_data: FinalData = {
     name: "",
     mail: "",
@@ -73,6 +78,12 @@ export class RifapageComponent implements OnInit, OnDestroy {
   blockedTickets: string[] = [];
   purchasedTickets: string[] = [];
   filteredTickets: LoterryTicket[] = [];
+
+  correoParticipanteData: CorreoParticipante = {
+    name: "",
+    pw: "",
+    code: "",
+  };
 
   ticket_price: number = 7; // pesos
   ticket_counter: number = 0;
@@ -342,7 +353,11 @@ export class RifapageComponent implements OnInit, OnDestroy {
                 (response) => {
                   const mensaje = `ID: ${response["clave"]}<br/>Contraseña: ${response["password"]}<br/>Continuar a Whatsapp para enviar la información`;
                   console.log(response);
-                  this.resetVariables();
+                  this.correoParticipanteData = {
+                    name: response["name"],
+                    pw: response["password"],
+                    code: response["clave"],
+                  };
                   this.spinner.hide();
                   Swal.fire({
                     title: "¡Boletos apartados!",
@@ -356,7 +371,27 @@ export class RifapageComponent implements OnInit, OnDestroy {
                     allowEnterKey: true, // Permite la selección del texto
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      console.log("Aqui se va a WSP");
+                      const form_data_correo = new FormData();
+                      form_data_correo.append(
+                        "data",
+                        JSON.stringify(this.correoParticipanteData)
+                      );
+                      console.log(this.correoParticipanteData);
+
+                      this.http
+                        .post<any>(
+                          `${backend_url}enviarCorreo`,
+                          form_data_correo,
+                          { headers: this.headers }
+                        )
+                        .subscribe(
+                          (response) => {
+                            this.resetVariables();
+                          },
+                          (error) => {
+                            swalErrorHttpResponse(error);
+                          }
+                        );
                     }
                   });
                   Swal.getPopup().addEventListener("touchstart", function (e) {
@@ -393,7 +428,11 @@ export class RifapageComponent implements OnInit, OnDestroy {
                   (response) => {
                     const mensaje = `ID: ${response["clave"]}<br/>Contraseña: ${response["password"]}<br/>Continuar a Whatsapp para enviar la información`;
                     console.log(response);
-                    this.resetVariables();
+                    this.correoParticipanteData = {
+                      name: response["name"],
+                      pw: response["password"],
+                      code: response["clave"],
+                    };
                     this.spinner.hide();
                     Swal.fire({
                       title: "¡Boletos apartados!",
@@ -407,7 +446,27 @@ export class RifapageComponent implements OnInit, OnDestroy {
                       allowEnterKey: true, // Permite la selección del texto
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        console.log("Aqui se va a WSP");
+                        const form_data_correo = new FormData();
+                        form_data_correo.append(
+                          "data",
+                          JSON.stringify(this.correoParticipanteData)
+                        );
+                        console.log(this.correoParticipanteData);
+
+                        this.http
+                          .post<any>(
+                            `${backend_url}enviarCorreo`,
+                            form_data_correo,
+                            { headers: this.headers }
+                          )
+                          .subscribe(
+                            (response) => {
+                              this.resetVariables();
+                            },
+                            (error) => {
+                              swalErrorHttpResponse(error);
+                            }
+                          );
                       }
                     });
                     Swal.getPopup().addEventListener(
@@ -438,6 +497,11 @@ export class RifapageComponent implements OnInit, OnDestroy {
       mail: "",
       phone: "",
       state: "",
+    };
+    this.correoParticipanteData = {
+      name: "",
+      pw: "",
+      code: "",
     };
     this.searchTerm = "";
     this.itemsPerPage = 5000;
