@@ -24,4 +24,6 @@ export interface CorreoParticipante {
   name: string;
   pw: string;
   code: string;
+  email: string;
+  tickets: any[];
 }

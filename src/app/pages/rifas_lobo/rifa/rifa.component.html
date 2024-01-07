@@ -277,13 +277,21 @@
                   <div class="col-md-12">
                     <div class="form-group">
                       <label> Estado </label>
-                      <input
+                      <select
+                        style="background-color: #111111"
                         name="estado"
                         class="form-control"
-                        type="text"
-                        placeholder="Jalisco"
                         [(ngModel)]="final_data.state"
-                      />
+                      >
+                        <option value="" disabled></option>
+                        <option
+                          value="{{ state.state_province_name }}"
+                          *ngFor="let state of states"
+                        >
+                          {{ state.state_province_name }}
+                        </option>
+                        <!-- Agrega más opciones según tus necesidades -->
+                      </select>
                     </div>
                   </div>
                 </div>

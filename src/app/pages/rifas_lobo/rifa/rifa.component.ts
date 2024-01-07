@@ -50,10 +50,6 @@ import {
   ],
 })
 export class RifapageComponent implements OnInit, OnDestroy {
-  headers = new HttpHeaders({
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  });
   final_data: FinalData = {
     name: "",
     mail: "",
@@ -68,6 +64,7 @@ export class RifapageComponent implements OnInit, OnDestroy {
   isCheckboxSelected: boolean = false;
   showSearchField: boolean = false;
   isLoadingTickets: boolean = false;
+  states: any[] = [];
 
   modalRef: BsModalRef;
   selectedTicketsModalData: any[] = [];
@@ -83,6 +80,8 @@ export class RifapageComponent implements OnInit, OnDestroy {
     name: "",
     pw: "",
     code: "",
+    email: "",
+    tickets: [],
   };
 
   ticket_price: number = 7; // pesos
@@ -102,7 +101,11 @@ export class RifapageComponent implements OnInit, OnDestroy {
 
     this.http.get<any>(`${backend_url}getBlockedTickets`).subscribe(
       (response) => {
+        console.log(response);
+
         this.tickets.push(...response["tickets"]);
+        this.states = response["states"];
+        console.log(this.states);
 
         this.tickets.forEach((ticket) => {
           ticket.status == 2
@@ -129,6 +132,7 @@ export class RifapageComponent implements OnInit, OnDestroy {
         swalErrorHttpResponse(error);
       }
     );
+    this.spinner.hide();
   }
 
   ngOnDestroy() {
@@ -336,7 +340,6 @@ export class RifapageComponent implements OnInit, OnDestroy {
     this.selectedTickets.forEach((ticket) => {
       final_tickets.push(ticket.number);
     });
-    console.log(final_tickets);
 
     const form_data_add = new FormData();
     this.spinner.show();
@@ -351,13 +354,13 @@ export class RifapageComponent implements OnInit, OnDestroy {
               .post(`${backend_url}addParticipante`, form_data_add)
               .subscribe(
                 (response) => {
-                  const mensaje = `ID: ${response["clave"]}<br/>Contraseña: ${response["password"]}<br/>Continuar a Whatsapp para enviar la información`;
-                  console.log(response);
-                  this.resetVariables();
+                  const mensaje = `<b>ID</b>: ${response["clave"]}<br/><b>Contraseña:</b> ${response["password"]}<br/>se envió la información por correo. <br/>Conserve su <b>ID y Contraseña</b>`;
                   this.correoParticipanteData = {
                     name: response["name"],
                     pw: response["password"],
                     code: response["clave"],
+                    email: response["email"],
+                    tickets: final_tickets,
                   };
                   this.spinner.hide();
                   Swal.fire({
@@ -372,26 +375,27 @@ export class RifapageComponent implements OnInit, OnDestroy {
                     allowEnterKey: true, // Permite la selección del texto
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      // const form_data_correo = new FormData();
-                      // form_data_correo.append(
-                      //   "data",
-                      //   JSON.stringify(this.correoParticipanteData)
-                      // );
-                      // console.log(this.correoParticipanteData);
-                      // this.http
-                      //   .post<any>(
-                      //     `${backend_url}enviarCorreo`,
-                      //     form_data_correo,
-                      //     { headers: this.headers }
-                      //   )
-                      //   .subscribe(
-                      //     (response) => {
-                      //       this.resetVariables();
-                      //     },
-                      //     (error) => {
-                      //       swalErrorHttpResponse(error);
-                      //     }
-                      //   );
+                      this.spinner.show();
+                      const form_data_correo = new FormData();
+                      form_data_correo.append(
+                        "data",
+                        JSON.stringify(this.correoParticipanteData)
+                      );
+                      console.log(this.correoParticipanteData);
+
+                      this.http
+                        .post<any>(
+                          `${backend_url}enviarCorreo`,
+                          form_data_correo
+                        )
+                        .subscribe(
+                          (response) => {
+                            this.resetVariables();
+                          },
+                          (error) => {
+                            swalErrorHttpResponse(error);
+                          }
+                        );
                     }
                   });
                   Swal.getPopup().addEventListener("touchstart", function (e) {
@@ -426,13 +430,13 @@ export class RifapageComponent implements OnInit, OnDestroy {
                 .post(`${backend_url}addParticipante`, form_data_add)
                 .subscribe(
                   (response) => {
-                    const mensaje = `ID: ${response["clave"]}<br/>Contraseña: ${response["password"]}<br/>Continuar a Whatsapp para enviar la información`;
-                    this.resetVariables();
-                    console.log(response);
+                    const mensaje = `<b>ID</b>: ${response["clave"]}<br/><b>Contraseña:</b> ${response["password"]}<br/>se envió la información por correo. <br/>Conserve su <b>ID y Contraseña</b>`;
                     this.correoParticipanteData = {
                       name: response["name"],
                       pw: response["password"],
                       code: response["clave"],
+                      email: response["email"],
+                      tickets: final_tickets,
                     };
                     this.spinner.hide();
                     Swal.fire({
@@ -447,26 +451,27 @@ export class RifapageComponent implements OnInit, OnDestroy {
                       allowEnterKey: true, // Permite la selección del texto
                     }).then((result) => {
                       if (result.isConfirmed) {
-                        // const form_data_correo = new FormData();
-                        // form_data_correo.append(
-                        //   "data",
-                        //   JSON.stringify(this.correoParticipanteData)
-                        // );
-                        // console.log(this.correoParticipanteData);
-                        // this.http
-                        //   .post<any>(
-                        //     `${backend_url}enviarCorreo`,
-                        //     form_data_correo,
-                        //     { headers: this.headers }
-                        //   )
-                        //   .subscribe(
-                        //     (response) => {
-                        //       this.resetVariables();
-                        //     },
-                        //     (error) => {
-                        //       swalErrorHttpResponse(error);
-                        //     }
-                        //   );
+                        this.spinner.show();
+                        const form_data_correo = new FormData();
+                        form_data_correo.append(
+                          "data",
+                          JSON.stringify(this.correoParticipanteData)
+                        );
+                        console.log(this.correoParticipanteData);
+
+                        this.http
+                          .post<any>(
+                            `${backend_url}enviarCorreo`,
+                            form_data_correo
+                          )
+                          .subscribe(
+                            (response) => {
+                              this.resetVariables();
+                            },
+                            (error) => {
+                              swalErrorHttpResponse(error);
+                            }
+                          );
                       }
                     });
                     Swal.getPopup().addEventListener(
@@ -502,6 +507,8 @@ export class RifapageComponent implements OnInit, OnDestroy {
       name: "",
       pw: "",
       code: "",
+      email: "",
+      tickets: [],
     };
     this.searchTerm = "";
     this.itemsPerPage = 5000;
