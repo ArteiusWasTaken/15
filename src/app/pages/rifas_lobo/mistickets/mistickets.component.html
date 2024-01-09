@@ -1,1 +1,62 @@
-<p>mistickets works!</p>
+<div class="wrapper">
+    <div class="page-header header-filter">
+        <div class="squares square1"></div>
+        <div class="squares square2"></div>
+        <div class="squares square3"></div>
+        <div class="squares square4"></div>
+        <div class="squares square5"></div>
+        <div class="squares square6"></div>
+        <div class="squares square7"></div>
+        <div class="container">
+            <div class="content-center">
+                <div class="section">
+                    <div class="container">
+                        <div class="row justify-content-center">
+                            <h1 class="h1-seo">MIS BOLETOS</h1>
+                        </div>
+
+                        <div class="row">
+                            <div class="row align-items-center pt-5">
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group" [hidden]="tickets.length > 0">
+                                                <label> Correo </label>
+                                                <input
+                                                        type="email"
+                                                        name="email"
+                                                        id="email"
+                                                        class="form-control"
+                                                        placeholder="Correo Electronico"
+                                                        [(ngModel)]="data.email"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="form-group" [hidden]="tickets.length > 0">
+                                                <label> Contraseña </label>
+                                                <input
+                                                        type="password"
+                                                        name="pass"
+                                                        id="pass"
+                                                        placeholder="Contraseña"
+                                                        class="form-control"
+                                                        [(ngModel)]="data.pass"
+                                                        (keyup.enter)="getTickets()"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <div class="container"></div>
+    </div>
+    <div class="space-50"></div>
+</div>
